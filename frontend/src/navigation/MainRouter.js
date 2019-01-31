@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   FlatList
 } from 'react-native';
 import { Router, Link, Route } from './nav-modules';

@@ -4,7 +4,7 @@ import {
   Text
 } from 'react-native';
 
-export default class Secret extends React.Component {
+export default class Secret extends Component {
   state = {
     message: 'Loading..'
   }
