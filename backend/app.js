@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 
 const mongo_uri = 'mongodb://localhost/react-auth';
 
-mongoose.connect(mongo_uri, function(err) {
+mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
   if (err) {
     throw err;
   } else {
@@ -41,7 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api/users', usersRouter);
+app.use('/users', usersRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/secret', secretRouter);
 

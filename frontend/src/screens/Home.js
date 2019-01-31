@@ -11,7 +11,7 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     fetch('http://localhost:3001/api/home')
-      .then(res => res.json())
+      .then(res => res.text())
       .then(api => {
         this.setState({ message:  api})
       });

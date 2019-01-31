@@ -11,7 +11,7 @@ export default class Secret extends React.Component {
 
   componentDidMount() {
     fetch('http://localhost:3001/api/secret')
-      .then(res => res.json())
+      .then(res => res.text())
       .then(api => {
         this.setState({ message:  api})
       });
