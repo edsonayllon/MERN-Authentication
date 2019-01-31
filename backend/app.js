@@ -5,23 +5,26 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const registerRouter = require('./routes/register');
 const homeRouter = require('./routes/home');
 const secretRouter = require('./routes/secret');
 
 const app = express();
-
 const mongoose = require('mongoose');
-
 const mongo_uri = 'mongodb://localhost/react-auth';
 
-mongoose.connect(mongo_uri, { useNewUrlParser: true }, function(err) {
+mongoose.connect(mongo_uri, {
+  //fixes deprication warnings
+  useCreateIndex: true,
+  useNewUrlParser: true
+}, function(err) {
   if (err) {
     throw err;
   } else {
     console.log(`Successfully connected to ${mongo_uri}`);
   }
 });
+
 
 
 app.use(function(req, res, next) {
@@ -41,9 +44,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/secret', secretRouter);
+app.use('/api/register', registerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
