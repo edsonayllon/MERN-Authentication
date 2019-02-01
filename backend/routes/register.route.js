@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //import user schema
-const User = require('../models/User.js');
+const User = require('../models/user.model');
 
 // POST route to register a user
 router.post('/', function(req, res) {

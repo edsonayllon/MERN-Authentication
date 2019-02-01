@@ -7,11 +7,11 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 
 const withAuth = require('./middleware');
-const indexRouter = require('./routes/index');
-const homeRouter = require('./routes/home');
-const secretRouter = require('./routes/secret');
-const registerRouter = require('./routes/register');
-const authenticateRouter = require('./routes/authenticate');
+const indexRouter = require('./routes/index.route');
+const homeRouter = require('./routes/home.route');
+const secretRouter = require('./routes/secret.route');
+const registerRouter = require('./routes/register.route');
+const authenticateRouter = require('./routes/authenticate.route');
 const config = require('./config')
 
 const app = express();
