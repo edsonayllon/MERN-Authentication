@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import deviceStorage from '../services/deviceStorage';
 
 export default class SignIn extends Component {
   state = {
@@ -26,7 +27,7 @@ export default class SignIn extends Component {
 
   signIn = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/authenticate', {
+    fetch('http://localhost:4000/api/authenticate', {
       method: 'POST',
       body: JSON.stringify(this.state.user),
       headers: {
@@ -35,7 +36,7 @@ export default class SignIn extends Component {
     })
     .then(res => {
       if (res.status === 200) {
-        this.props.history.push('/');
+        console.log(res);
       } else {
         const error = new Error(res.error);
         throw error;

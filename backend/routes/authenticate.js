@@ -1,10 +1,9 @@
-require('dotenv').config({ path: 'variables.env' });
-
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User.js');
 const router = express.Router();
-const secret = process.env.JWT_SECRET;
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const config = require('../config')
+const secret = config.TOKEN_SECRET;
 
 router.post('/', function(req, res) {
   const { email, password } = req.body;

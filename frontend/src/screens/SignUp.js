@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import deviceStorage from '../services/deviceStorage';
 
 export default class SignUp extends Component {
   state = {
@@ -26,7 +27,7 @@ export default class SignUp extends Component {
 
   signUp = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/register', {
+    fetch('http://localhost:4000/api/register', {
       method: 'POST',
       body: JSON.stringify(this.state.user),
       headers: {
@@ -35,7 +36,7 @@ export default class SignUp extends Component {
     })
     .then(res => {
       if (res.status === 200) {
-        this.props.history.push('/');
+        deviceStorage.saveKey("id_token", res.data.jwt);
       } else {
         const error = new Error(res.error);
         throw error;
