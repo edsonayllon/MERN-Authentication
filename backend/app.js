@@ -3,14 +3,16 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
+const withAuth = require('./middleware');
 const indexRouter = require('./routes/index');
-const registerRouter = require('./routes/register');
 const homeRouter = require('./routes/home');
 const secretRouter = require('./routes/secret');
+const registerRouter = require('./routes/register');
+const authenticateRouter = require('./routes/authenticate');
 
 const app = express();
-const mongoose = require('mongoose');
 const mongo_uri = 'mongodb://localhost/react-auth';
 
 mongoose.connect(mongo_uri, {
@@ -24,8 +26,6 @@ mongoose.connect(mongo_uri, {
     console.log(`Successfully connected to ${mongo_uri}`);
   }
 });
-
-
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -47,6 +47,11 @@ app.use('/', indexRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/secret', secretRouter);
 app.use('/api/register', registerRouter);
+app.use('/api/authenticate', authenticateRouter);
+
+app.get('/checkToken', withAuth, function(req, res) {
+  res.sendStatus(200);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
