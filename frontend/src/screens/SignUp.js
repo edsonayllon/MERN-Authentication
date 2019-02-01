@@ -4,8 +4,9 @@ import {
   Text
 } from 'react-native';
 import Input from '../components/Input';
+import Button from '../components/Button';
 
-export default class ComponentName extends React.Component {
+export default class SignUp extends Component {
   state = {
     email: '',
     password: ''
@@ -17,9 +18,9 @@ export default class ComponentName extends React.Component {
     });
   }
 
-  onSubmit = (event) => {
-    event.preventDefault();
-    fetch('http://localhost:3001/api/authenticate', {
+  signUp = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:3001/api/register', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
@@ -36,14 +37,15 @@ export default class ComponentName extends React.Component {
     })
     .catch(err => {
       console.error(err);
-      alert('Error logging in please try again');
+      alert('Error signing up, please try again');
     });
   }
 
   render() {
+    console.log(JSON.stringify(this.state))
     return (
       <View>
-        <Text>Login Below!</Text>
+        <Text>Register Below!</Text>
         <Input
             placeholder="Email"
             type='email'
@@ -59,10 +61,9 @@ export default class ComponentName extends React.Component {
             value={this.state.password}
             secureTextEntry
           />
-
-        <Input
-            type='Submit'
-            value='Submit'
+        <Button
+          title='Sign Up'
+          onPress={this.signUp.bind(this)}
           />
       </View>
     );

@@ -9,6 +9,8 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
 
+  //Components
+
   input: {
     height: 45,
     marginBottom: 15,
@@ -16,6 +18,22 @@ const styles = EStyleSheet.create({
     fontSize: 16,
     borderBottomColor: '$secondaryColor',
     color:'black',
+  },
+
+  button: {
+    flexDirection: 'row',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'white',
+    padding: 12,
+    justifyContent: 'center',
+  },
+
+  buttonText: {
+    color: 'black',
+    fontSize: 16,
+    letterSpacing: 0.5,
   },
 
 

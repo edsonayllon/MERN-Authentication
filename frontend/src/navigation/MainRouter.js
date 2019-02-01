@@ -6,7 +6,8 @@ import {
 import { Router, Link, Route } from './nav-modules';
 import Home from '../screens/Home';
 import Secret from '../screens/Secret';
-import Login from '../screens/Login';
+import SignIn from '../screens/SignIn';
+import SignUp from '../screens/SignUp';
 
 
 export default class MainRouter extends Component {
@@ -24,8 +25,13 @@ export default class MainRouter extends Component {
       },
       {
         path: '/login',
-        component: Login,
-        title: 'Login'
+        component: SignIn,
+        title: 'Sign In'
+      },
+      {
+        path: '/register',
+        component: SignUp,
+        title: 'Sign Up'
       }
     ];
 
@@ -58,7 +64,12 @@ export default class MainRouter extends Component {
               {
                 key: 'Login',
                 path: '/login'
+              },
+              {
+                key: 'Register',
+                path: '/register'
               }
+
             ]}
             renderItem={({item}) => <Link to={item.path} >{item.key}</Link>}
           />
