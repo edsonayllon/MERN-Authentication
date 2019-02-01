@@ -8,21 +8,27 @@ import Button from '../components/Button';
 
 export default class SignIn extends Component {
   state = {
-    email: '',
-    password: ''
+    user: {
+      email: '',
+      password: ''
+    }
   }
 
   onInputChange = (key, value) => {
-    this.setState({
-      [key]: value
-    });
+    let user = {...this.state.user};
+    this.setState(prevState => ({
+      user: {
+          ...prevState.user,
+          [key]: value
+      }
+    }))
   }
 
   signIn = (e) => {
     e.preventDefault();
     fetch('http://localhost:3001/api/authenticate', {
       method: 'POST',
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(this.state.user),
       headers: {
         'Content-Type': 'application/json'
       }
@@ -51,14 +57,14 @@ export default class SignIn extends Component {
             type='email'
             name='email'
             onChangeText={this.onInputChange}
-            value={this.state.email}
+            value={this.state.user.email}
           />
         <Input
             placeholder="Password"
             type='password'
             name='password'
             onChangeText={this.onInputChange}
-            value={this.state.password}
+            value={this.state.user.password}
             secureTextEntry
           />
         <Button

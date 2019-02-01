@@ -8,21 +8,27 @@ import Button from '../components/Button';
 
 export default class SignUp extends Component {
   state = {
-    email: '',
-    password: ''
+    user: {
+      email: '',
+      password: ''
+    }
   }
 
   onInputChange = (key, value) => {
-    this.setState({
-      [key]: value
-    });
+    let user = {...this.state.user};
+    this.setState(prevState => ({
+      user: {
+        ...prevState.user,
+        [key]: value
+      }
+    }))
   }
 
   signUp = (e) => {
     e.preventDefault();
     fetch('http://localhost:3001/api/register', {
       method: 'POST',
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(this.state.user),
       headers: {
         'Content-Type': 'application/json'
       }
