@@ -1,8 +1,16 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 import MainRouter from './navigation/MainRouter';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import styles from './stylesheet';
 
-export default class App extends React.Component {
+EStyleSheet.build({
+  // always call EStyleSheet.build() even if you don't use global variables!
+  $primaryColor: '#007FFF',
+  $secondaryColor: '#999',
+});
+
+export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -11,12 +19,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
