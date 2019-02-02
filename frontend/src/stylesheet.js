@@ -36,6 +36,9 @@ const styles = EStyleSheet.create({
     fontSize: 16,
     letterSpacing: 0.5,
   },
+  activityIndicator: {
+    transform: [{scale: 0.8}]
+  },
 
 
   //Create Desktop/Tablet CSS

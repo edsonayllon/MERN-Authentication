@@ -12,7 +12,10 @@ export default class SignIn extends Component {
     user: {
       email: '',
       password: ''
-    }
+    },
+    newJWT: '',
+    loading: false,
+    message: ''
   }
 
   onInputChange = (key, value) => {
@@ -21,22 +24,39 @@ export default class SignIn extends Component {
       user: {
           ...prevState.user,
           [key]: value
-      }
+      },
     }))
   }
 
   signIn = (e) => {
     e.preventDefault();
+    this.setState({loading: true});
     fetch('http://localhost:4000/api/authenticate', {
       method: 'POST',
       body: JSON.stringify(this.state.user),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       }
     })
     .then(res => {
+      this.setState({loading: false});
       if (res.status === 200) {
-        console.log(res);
+        res.json().then(json => {
+          deviceStorage.saveItem("jwt-token", json.token);
+          this.setState({
+            newJWT: json.token,
+            message: json.message
+          });
+          this.props.newJWT(json.token);
+        });
+      } else if (res.status === 401) {
+        res.json().then(json => {
+          this.setState({
+            newJWT: json.token,
+            message: json.message
+          });
+        });
       } else {
         const error = new Error(res.error);
         throw error;
@@ -49,7 +69,6 @@ export default class SignIn extends Component {
   }
 
   render() {
-    console.log(JSON.stringify(this.state))
     return (
       <View>
         <Text>Login Below!</Text>
@@ -69,9 +88,11 @@ export default class SignIn extends Component {
             secureTextEntry
           />
         <Button
+          isLoading = {this.state.loading}
           title='Sign In'
           onPress={this.signIn.bind(this)}
           />
+        <Text> {this.state.message} </Text>
       </View>
     );
   }

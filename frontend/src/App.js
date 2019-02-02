@@ -11,10 +11,21 @@ EStyleSheet.build({
 });
 
 export default class App extends Component {
+  state = {
+    jwtoken: ''
+  }
+
+  handleNewJWT = (token) => {
+    this.setState({
+      jwtoken: token
+    })
+  }
+
   render() {
+    console.log(this.state.jwtoken)
     return (
       <View style={styles.container}>
-        <MainRouter />
+        <MainRouter newJWT={this.handleNewJWT}/>
       </View>
     );
   }

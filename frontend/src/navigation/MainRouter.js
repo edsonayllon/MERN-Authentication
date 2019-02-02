@@ -11,6 +11,12 @@ import SignUp from '../screens/SignUp';
 
 
 export default class MainRouter extends Component {
+  state = {}
+
+  onNewJWT = (token) => {
+    this.props.newJWT(token);
+  }
+  
   render() {
     const routesInfo = [
       {
@@ -40,7 +46,7 @@ export default class MainRouter extends Component {
         <Route exact
           path = {route.path}
           render = {(props) =>
-            <route.component {...props} />
+            <route.component {...props} newJWT={this.onNewJWT} />
           }
           key = {route.title}
         />
