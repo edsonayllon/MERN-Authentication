@@ -6,13 +6,18 @@ import {
 import Input from '../components/Input';
 import Button from '../components/Button';
 import deviceStorage from '../services/deviceStorage';
+import { Link } from '../navigation/nav-modules';
+import styles from '../stylesheet';
 
 export default class SignUp extends Component {
   state = {
     user: {
       email: '',
       password: ''
-    }
+    },
+    loading: false,
+    message: '',
+    registerSuccess: false
   }
 
   onInputChange = (key, value) => {
@@ -27,6 +32,7 @@ export default class SignUp extends Component {
 
   signUp = (e) => {
     e.preventDefault();
+    this.setState({loading: true});
     fetch('http://localhost:4000/api/register', {
       method: 'POST',
       body: JSON.stringify(this.state.user),
@@ -35,9 +41,22 @@ export default class SignUp extends Component {
       }
     })
     .then(res => {
+      this.setState({loading: false});
       if (res.status === 200) {
-        deviceStorage.saveKey("id_token", res.data.jwt);
-      } else {
+        res.json().then(json => {
+          this.setState({
+            message: json.message,
+            loginSuccess: true
+          });
+        });
+      } else if (res.status === 400) {
+          res.json().then(json => {
+            this.setState({
+              message: json.message,
+              loginSuccess: false
+            });
+          });
+        } else {
         const error = new Error(res.error);
         throw error;
       }
@@ -72,6 +91,13 @@ export default class SignUp extends Component {
           title='Sign Up'
           onPress={this.signUp.bind(this)}
           />
+        <Text style={this.state.loginSuccess
+        ? styles.loginSuccess : styles.loginFailure} >
+          {this.state.message}
+        </Text>
+        <Link to="/login">
+          <Text style={styles.link}>Already own an account? Login</Text>
+        </Link>
       </View>
     );
   }

@@ -10,7 +10,6 @@ const styles = EStyleSheet.create({
   },
 
   //Components
-
   input: {
     height: 45,
     marginBottom: 15,
@@ -20,7 +19,6 @@ const styles = EStyleSheet.create({
     borderColor: '$secondaryColor',
     color:'black',
   },
-
   button: {
     flexDirection: 'row',
     borderRadius: 5,
@@ -30,7 +28,6 @@ const styles = EStyleSheet.create({
     padding: 12,
     justifyContent: 'center',
   },
-
   buttonText: {
     color: 'black',
     fontSize: 16,
@@ -40,6 +37,16 @@ const styles = EStyleSheet.create({
     transform: [{scale: 0.8}]
   },
 
+  //Authentication
+  loginSuccess: {
+    color: 'green'
+  },
+  loginFailure: {
+    color: 'red'
+  },
+  link: {
+    color: 'blue'
+  },
 
   //Create Desktop/Tablet CSS
   '@media (min-width: 768)': {

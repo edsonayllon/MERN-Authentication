@@ -7,9 +7,10 @@ const User = require('../models/user.model');
 // POST route to register a user
 router.post('/', function(req, res) {
   bcrypt.hash(req.body.password, 10, function(err, hash){
-      if(err) {
-         return res.status(500).json({
-            error: err
+      if(err || req.body.password === "") {
+         return res.status(400).json({
+            error: err,
+            message: 'Password required'
          });
       }
       else {
@@ -20,11 +21,12 @@ router.post('/', function(req, res) {
          user.save().then(function(result) {
             console.log(result);
             res.status(200).json({
-               success: 'New user has been created'
+              message: 'Account successfully created. Please login'
             });
          }).catch(error => {
-            res.status(500).json({
-               error: err
+            res.status(400).json({
+               error: err,
+               message: 'Username required'
             });
          });
       }

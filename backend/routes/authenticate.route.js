@@ -15,7 +15,7 @@ router.post('/', function(req, res){
       if(err) {
         return res.status(401).json({
           message: 'Wrong Username or Password',
-          success: false
+          error: err
         });
       }
       if(result) {
@@ -29,19 +29,17 @@ router.post('/', function(req, res){
         });
         return res.status(200).json({
           message: 'Login Successful',
-          success: true,
           token: JWTToken
         });
       }
       return res.status(401).json({
-        message: 'Wrong Username or Password',
-        success: false
+        message: 'Wrong Username or Password'
       });
      });
     })
-    .catch(error => {
+    .catch(err => {
       res.status(401).json({
-         error: error,
+         error: err,
          message: 'User does not exist, please register an account'
     });
   });;

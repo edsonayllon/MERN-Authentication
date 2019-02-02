@@ -6,6 +6,8 @@ import {
 import Input from '../components/Input';
 import Button from '../components/Button';
 import deviceStorage from '../services/deviceStorage';
+import styles from '../stylesheet';
+import { Link } from '../navigation/nav-modules';
 
 export default class SignIn extends Component {
   state = {
@@ -15,7 +17,8 @@ export default class SignIn extends Component {
     },
     newJWT: '',
     loading: false,
-    message: ''
+    message: '',
+    loginSuccess: false
   }
 
   onInputChange = (key, value) => {
@@ -46,15 +49,16 @@ export default class SignIn extends Component {
           deviceStorage.saveItem("jwt-token", json.token);
           this.setState({
             newJWT: json.token,
-            message: json.message
+            message: json.message,
+            loginSuccess: true
           });
           this.props.newJWT(json.token);
         });
       } else if (res.status === 401) {
         res.json().then(json => {
           this.setState({
-            newJWT: json.token,
-            message: json.message
+            message: json.message,
+            loginSuccess: false
           });
         });
       } else {
@@ -64,7 +68,6 @@ export default class SignIn extends Component {
     })
     .catch(err => {
       console.error(err);
-      alert('Error logging in please try again');
     });
   }
 
@@ -92,7 +95,14 @@ export default class SignIn extends Component {
           title='Sign In'
           onPress={this.signIn.bind(this)}
           />
-        <Text> {this.state.message} </Text>
+        <Text style={this.state.loginSuccess
+        ? styles.loginSuccess : styles.loginFailure} >
+          {this.state.message}
+        </Text>
+        <Link to="/register">
+          <Text style={styles.link}>Create a new account</Text>
+        </Link>
+
       </View>
     );
   }
