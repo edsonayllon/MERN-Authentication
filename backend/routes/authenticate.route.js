@@ -14,7 +14,7 @@ router.post('/', function(req, res){
     bcrypt.compare(req.body.password, user.password, function(err, result){
       if(err) {
         return res.status(401).json({
-          message: 'Wrong Username or Password',
+          message: 'Wrong Email or Password',
           error: err
         });
       }
@@ -33,7 +33,7 @@ router.post('/', function(req, res){
         });
       }
       return res.status(401).json({
-        message: 'Wrong Username or Password'
+        message: 'Wrong Email or Password'
       });
      });
     })

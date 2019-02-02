@@ -22,7 +22,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.state.jwtoken)
     return (
       <View style={styles.container}>
         <MainRouter newJWT={this.handleNewJWT}/>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text
+  Text,
+  AsyncStorage
 } from 'react-native';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import deviceStorage from '../services/deviceStorage';
 import styles from '../stylesheet';
 import { Link } from '../navigation/nav-modules';
 
@@ -20,6 +20,15 @@ export default class SignIn extends Component {
     message: '',
     loginSuccess: false
   }
+
+  _storeToken = async () => {
+    try {
+      const jsonItem = await AsyncStorage.setItem("JWT_TOKEN", JSON.stringify(this.state.newJWT));
+      return jsonItem
+    } catch (err) {
+      console.log(err.message)
+    }
+  };
 
   onInputChange = (key, value) => {
     let user = {...this.state.user};
@@ -46,13 +55,13 @@ export default class SignIn extends Component {
       this.setState({loading: false});
       if (res.status === 200) {
         res.json().then(json => {
-          deviceStorage.saveItem("jwt-token", json.token);
           this.setState({
             newJWT: json.token,
             message: json.message,
             loginSuccess: true
           });
           this.props.newJWT(json.token);
+          this._storeToken();
         });
       } else if (res.status === 401) {
         res.json().then(json => {
@@ -70,6 +79,7 @@ export default class SignIn extends Component {
       console.error(err);
     });
   }
+
 
   render() {
     return (

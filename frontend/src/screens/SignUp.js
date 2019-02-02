@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import deviceStorage from '../services/deviceStorage';
 import { Link } from '../navigation/nav-modules';
 import styles from '../stylesheet';
 

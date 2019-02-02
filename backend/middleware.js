@@ -1,25 +1,18 @@
-require('dotenv').config({ path: 'variables.env' });
+const checkToken = (req, res, next) => {
+    const header = req.headers['authorization'];
 
-const jwt = require('jsonwebtoken');
-const secret = process.env.JWT_SECRET;
+    if(typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
 
-const withAuth = function(req, res, next) {
-  const token =
-    req.body.token ||
-    req.query.token ||
-    req.headers['x-access-token'] ||
-    req.cookies.token;
-  if (!token) {
-    res.status(401).send('Unauthorized: No token provided');
-  } else {
-    jwt.verify(token, secret, function(err, decoded) {
-      if (err) {
-        res.status(401).send('Unauthorized: Invalid token');
-      } else {
-        req.email = decoded.email;
+        req.token = token;
         next();
-      }
-    });
-  }
+    } else {
+      //If header is undefined return Forbidden (403)
+      res.sendStatus(403).json({
+        message: 'middleware failed'
+      })
+    }
 }
-module.exports = withAuth;
+
+module.exports = checkToken;
