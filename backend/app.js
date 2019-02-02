@@ -12,7 +12,7 @@ const homeRouter = require('./routes/home.route');
 const secretRouter = require('./routes/secret.route');
 const registerRouter = require('./routes/register.route');
 const authenticateRouter = require('./routes/authenticate.route');
-const config = require('./config')
+const config = require('./config');
 
 const app = express();
 
@@ -40,14 +40,15 @@ if (app.get('env') === 'production') {
 mongoose.connect(config.MONGO_URI, {
   //fixes deprication warnings
   useCreateIndex: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 }, function(err) {
-  if (err) {
-    throw err;
-  } else {
-    console.log(`Successfully connected to ${config.MONGO_URI}`);
+    if (err) {
+      throw err;
+    } else {
+      console.log(`Successfully connected to ${config.MONGO_URI}`);
+    }
   }
-});
+);
 
 
 app.use('/', indexRouter);
