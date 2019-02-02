@@ -14,9 +14,10 @@ const styles = EStyleSheet.create({
   input: {
     height: 45,
     marginBottom: 15,
-    borderBottomWidth: 1,
+    borderWidth: 1,
+    paddingLeft:5,
     fontSize: 16,
-    borderBottomColor: '$secondaryColor',
+    borderColor: '$secondaryColor',
     color:'black',
   },
 
