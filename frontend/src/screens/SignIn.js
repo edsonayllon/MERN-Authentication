@@ -61,6 +61,7 @@ export default class SignIn extends Component {
             loginSuccess: true
           });
           this._storeToken();
+          this.props.history.push('/secret')
         });
       } else if (res.status === 401) {
         res.json().then(json => {

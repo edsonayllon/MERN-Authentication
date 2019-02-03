@@ -48,6 +48,7 @@ export default class SignUp extends Component {
             loginSuccess: true
           });
         });
+        this.props.history.push('/login')
       } else if (res.status === 400) {
           res.json().then(json => {
             this.setState({
