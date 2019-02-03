@@ -1,4 +1,4 @@
-const checkToken = (req, res, next) => {
+const checkHeader = (req, res, next) => {
     const header = req.headers['authorization'];
 
     if(typeof header !== 'undefined') {
@@ -15,4 +15,4 @@ const checkToken = (req, res, next) => {
     }
 }
 
-module.exports = checkToken;
+module.exports = checkHeader;

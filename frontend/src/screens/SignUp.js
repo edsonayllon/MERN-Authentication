@@ -16,7 +16,7 @@ export default class SignUp extends Component {
     },
     loading: false,
     message: '',
-    registerSuccess: false
+    loginSuccess: false
   }
 
   onInputChange = (key, value) => {

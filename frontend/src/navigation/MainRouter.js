@@ -8,6 +8,7 @@ import Home from '../screens/Home';
 import Secret from '../screens/Secret';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
+import withAuth from '../components/withAuth';
 
 
 export default class MainRouter extends Component {
@@ -16,7 +17,7 @@ export default class MainRouter extends Component {
   onNewJWT = (token) => {
     this.props.newJWT(token);
   }
-  
+
   render() {
     const routesInfo = [
       {
@@ -26,7 +27,7 @@ export default class MainRouter extends Component {
       },
       {
         path: '/secret',
-        component: Secret,
+        component: withAuth(Secret),
         title: 'Secret'
       },
       {
@@ -45,9 +46,7 @@ export default class MainRouter extends Component {
       return(
         <Route exact
           path = {route.path}
-          render = {(props) =>
-            <route.component {...props} newJWT={this.onNewJWT} />
-          }
+          component = {route.component}
           key = {route.title}
         />
       )

@@ -60,7 +60,6 @@ export default class SignIn extends Component {
             message: json.message,
             loginSuccess: true
           });
-          this.props.newJWT(json.token);
           this._storeToken();
         });
       } else if (res.status === 401) {

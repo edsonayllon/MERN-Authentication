@@ -11,6 +11,7 @@ const homeRouter = require('./routes/home.route');
 const secretRouter = require('./routes/secret.route');
 const registerRouter = require('./routes/register.route');
 const authenticateRouter = require('./routes/authenticate.route');
+const checkTokenRouter = require('./routes/checkToken.route');
 const config = require('./config');
 
 const app = express();
@@ -54,10 +55,7 @@ app.use('/api/home', homeRouter);
 app.use('/api/secret', secretRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/authenticate', authenticateRouter);
-
-app.get('/checkToken', withAuth, function(req, res) {
-  res.sendStatus(200);
-});
+app.use('/api/checkToken', checkTokenRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
