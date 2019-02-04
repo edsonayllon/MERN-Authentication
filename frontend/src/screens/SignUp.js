@@ -12,7 +12,8 @@ export default class SignUp extends Component {
   state = {
     user: {
       email: '',
-      password: ''
+      password: '',
+      passwordConfirm: '',
     },
     loading: false,
     message: '',
@@ -73,24 +74,32 @@ export default class SignUp extends Component {
       <View>
         <Text>Register Below!</Text>
         <Input
-            placeholder="Email"
-            type='email'
-            name='email'
-            onChangeText={this.onInputChange}
-            value={this.state.email}
-          />
+          placeholder="Email"
+          type='email'
+          name='email'
+          onChangeText={this.onInputChange}
+          value={this.state.email}
+        />
         <Input
-            placeholder="Password"
-            type='password'
-            name='password'
-            onChangeText={this.onInputChange}
-            value={this.state.password}
-            secureTextEntry
-          />
+          placeholder="Password"
+          type='password'
+          name='password'
+          onChangeText={this.onInputChange}
+          value={this.state.password}
+          secureTextEntry
+        />
+        <Input
+          placeholder="Confirm Password"
+          type='password'
+          name='password'
+          onChangeText={this.onInputChange}
+          value={this.state.passwordConfirm}
+          secureTextEntry
+        />
         <Button
           title='Sign Up'
           onPress={this.signUp.bind(this)}
-          />
+        />
         <Text style={this.state.loginSuccess
         ? styles.loginSuccess : styles.loginFailure} >
           {this.state.message}

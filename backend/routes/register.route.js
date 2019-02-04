@@ -9,13 +9,17 @@ const saltRounds = 10;
 // POST route to register a user
 router.post('/', function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash){
-    if(err || req.body.password === "") {
+    if (err || req.body.password === "") {
       return res.status(400).json({
         error: err,
         message: 'Password required'
       });
-    }
-    else {
+    } else if (req.body.password != req.body.passwordConfirm ) {
+      return res.status(400).json({
+        error: err,
+        message: 'Passwords must match'
+      });
+    } else {
       const user = new User({
         email: req.body.email,
         password: hash
