@@ -30,7 +30,6 @@ export default class SignIn extends Component {
   };
 
   onInputChange = (key, value) => {
-    let user = {...this.state.user};
     this.setState(prevState => ({
       user: {
           ...prevState.user,
@@ -81,6 +80,7 @@ export default class SignIn extends Component {
 
 
   render() {
+    console.log(this.state)
     return (
       <View>
         <Text>Login Below!</Text>

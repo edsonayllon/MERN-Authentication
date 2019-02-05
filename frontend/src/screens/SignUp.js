@@ -20,7 +20,6 @@ export default class SignUp extends Component {
   }
 
   onInputChange = (key, value) => {
-    let user = {...this.state.user};
     this.setState(prevState => ({
       user: {
         ...prevState.user,
