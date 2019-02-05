@@ -15,7 +15,7 @@ export default function withAuth(ComponentToProtect) {
         fetch("http://localhost:4000/api/checkToken", {
           method: "GET",
           headers: {
-            'authorization': token
+            "authorization": 'Bearer ' + token
           }
         }).then(res => {
           if (res.status === 200) {

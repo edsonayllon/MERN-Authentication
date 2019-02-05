@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const checkHeader = require('../middleware');
 const jwt = require('jsonwebtoken');
 const config = require('../config')
 const secret = config.TOKEN_SECRET;
 
-router.get('/', checkHeader, function(req, res, next) {
-  jwt.verify(req.headers['authorization'], secret, (err, decoded) => {
+router.get('/', function(req, res, next) {
+  jwt.verify(req.token, secret, (err, decoded) => {
     if(err){
       res.sendStatus(403);
     } else {

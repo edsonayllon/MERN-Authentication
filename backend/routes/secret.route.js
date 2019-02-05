@@ -5,10 +5,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../config')
 const secret = config.TOKEN_SECRET;
 
-router.get('/', checkHeader, function(req, res, next) {
-  const bearer = req.headers['authorization'].split(' ');
-  const token = bearer[1];
-  jwt.verify(token, secret, (err, decoded) => {
+router.get('/', function(req, res, next) {
+  jwt.verify(req.token, secret, (err, decoded) => {
      if(err){
        //If error send Forbidden (403)
        console.log('ERROR: Could not connect to the protected route');
