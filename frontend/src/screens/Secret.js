@@ -15,7 +15,7 @@ export default class Secret extends Component {
       fetch("http://localhost:4000/api/secret", {
         method: "GET",
         headers: {
-          'authorization': token
+          'authorization': 'Bearer ' + token
         }
       })
       .then(res => res.text())

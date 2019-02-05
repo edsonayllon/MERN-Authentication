@@ -4,6 +4,7 @@ const checkHeader = (req, res, next) => {
     if(typeof header !== 'undefined') {
         const bearer = header.split(' ');
         const token = bearer[1];
+        console.log(token)
 
         req.token = token;
         next();
