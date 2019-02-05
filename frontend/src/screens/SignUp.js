@@ -48,8 +48,9 @@ export default class SignUp extends Component {
             message: json.message,
             loginSuccess: true
           });
+        }).then( () => {
+          this.props.history.push('/login')
         });
-        this.props.history.push('/login')
       } else if (res.status === 400) {
           res.json().then(json => {
             this.setState({
@@ -69,7 +70,6 @@ export default class SignUp extends Component {
   }
 
   render() {
-    console.log(JSON.stringify(this.state))
     return (
       <View>
         <Text>Register Below!</Text>
@@ -78,27 +78,27 @@ export default class SignUp extends Component {
           type='email'
           name='email'
           onChangeText={this.onInputChange}
-          value={this.state.email}
+          value={this.state.user.email}
         />
         <Input
           placeholder="Password"
           type='password'
           name='password'
           onChangeText={this.onInputChange}
-          value={this.state.password}
+          value={this.state.user.password}
           secureTextEntry
         />
         <Input
           placeholder="Confirm Password"
-          type='password'
-          name='password'
+          type='passwordConfirm'
+          name='passwordConfirm'
           onChangeText={this.onInputChange}
-          value={this.state.passwordConfirm}
+          value={this.state.user.passwordConfirm}
           secureTextEntry
         />
         <Button
           title='Sign Up'
-          onPress={this.signUp.bind(this)}
+          onPress={this.signUp}
         />
         <Text style={this.state.loginSuccess
         ? styles.loginSuccess : styles.loginFailure} >

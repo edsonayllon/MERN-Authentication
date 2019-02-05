@@ -49,7 +49,6 @@ export default class MainRouter extends Component {
           render = {(props) =>
             <route.component {...props}  />
           }
-          component = {route.component}
           key = {route.title}
         />
       )
