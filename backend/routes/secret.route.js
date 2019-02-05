@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const checkHeader = require('../middleware');
 const jwt = require('jsonwebtoken');
 const config = require('../config')
 const secret = config.TOKEN_SECRET;

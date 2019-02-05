@@ -3,9 +3,8 @@ import {
   View,
   Text
 } from 'react-native';
-import Input from '../components/Input';
-import Button from '../components/Button';
-import { Link } from '../navigation/nav-modules';
+import { Input, Button } from '../components';
+import { Link } from '../navigation';
 import styles from '../stylesheet';
 
 export default class SignUp extends Component {

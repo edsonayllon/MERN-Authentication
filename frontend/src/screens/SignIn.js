@@ -4,10 +4,9 @@ import {
   Text,
   AsyncStorage
 } from 'react-native';
-import Input from '../components/Input';
-import Button from '../components/Button';
+import { Input, Button } from '../components';
+import { Link } from '../navigation';
 import styles from '../stylesheet';
-import { Link } from '../navigation/nav-modules';
 
 export default class SignIn extends Component {
   state = {

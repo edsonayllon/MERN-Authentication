@@ -3,11 +3,8 @@ import {
   View,
   FlatList
 } from 'react-native';
-import { Router, Link, Route } from './nav-modules';
-import Home from '../screens/Home';
-import Secret from '../screens/Secret';
-import SignIn from '../screens/SignIn';
-import SignUp from '../screens/SignUp';
+import { Router, Link, Route } from './';
+import { Home, Secret, SignIn, SignUp } from '../screens';
 import withAuth from '../components/withAuth';
 
 
