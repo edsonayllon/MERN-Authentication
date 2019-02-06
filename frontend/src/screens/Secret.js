@@ -4,10 +4,34 @@ import {
   Text,
   AsyncStorage
 } from 'react-native';
+import { Button } from '../components';
 
 export default class Secret extends Component {
   state = {
-    message: 'Loading..'
+    message: 'Loading..',
+    loading: false
+  }
+
+  logout = () => {
+    this.setState({loading: true});
+    this.removeItemValue("JWT_TOKEN").then( success => {
+      if (success) {
+        this.setState({loading: false});
+        this.props.history.push('/login');
+      } else {
+        this.setState({loading: false});
+      }
+    });
+  }
+
+  async removeItemValue(key) {
+    try {
+      await AsyncStorage.removeItem(key);
+      return true;
+    }
+    catch(exception) {
+      return false;
+    }
   }
 
   componentDidMount() {
@@ -44,6 +68,11 @@ export default class Secret extends Component {
       <View>
         <Text>Secret</Text>
         <Text>{this.state.message}</Text>
+        <Button
+          isLoading = {this.state.loading}
+          title='Logout'
+          onPress={this.logout}
+          />
       </View>
     );
   }
