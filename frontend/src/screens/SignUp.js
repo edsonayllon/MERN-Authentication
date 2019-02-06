@@ -97,6 +97,7 @@ export default class SignUp extends Component {
         <Button
           title='Sign Up'
           onPress={this.signUp}
+          isLoading = {this.state.loading}
         />
         <Text style={this.state.loginSuccess
         ? styles.loginSuccess : styles.loginFailure} >

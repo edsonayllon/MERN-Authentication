@@ -102,7 +102,7 @@ export default class SignIn extends Component {
         <Button
           isLoading = {this.state.loading}
           title='Sign In'
-          onPress={this.signIn.bind(this)}
+          onPress={this.signIn}
           />
         <Text style={this.state.loginSuccess
         ? styles.loginSuccess : styles.loginFailure} >
