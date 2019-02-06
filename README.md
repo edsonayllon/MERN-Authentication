@@ -48,9 +48,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 **Status**: In Progress
 
-- [ ] Logout system
-  - [ ] Frontend logout button inside restricted sections
-  - [ ] Logout button triggering logout procedure
+- [x] Logout system
 - [ ] Passport.js integration
 - [ ] Add 0Auth for social logins
   - [ ] Change User Schema for local and social logins
