@@ -5,6 +5,8 @@ const cors = require("cors");
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
+const passport = require('./models/passport.strategy');
+
 const checkHeader = require('./middleware');
 const indexRouter = require('./routes/index.route');
 const homeRouter = require('./routes/home.route');
@@ -49,7 +51,11 @@ mongoose.connect(config.MONGO_URI, {
   }
 );
 
+// Passport
+app.use(passport.initialize())
+app.use(passport.session())
 
+// Routes
 app.use('/', indexRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/secret', checkHeader, secretRouter);

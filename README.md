@@ -57,6 +57,7 @@ Currently, the app can create a new user with an email and password, redirect th
   - [ ] Add roles to user schema
   - [ ] Create system to test roles
 - [ ] Verify accounts with Email verification
+- [ ] Add user page that can update email and username in mongodb
 
 ## 3 | Getting Started
 

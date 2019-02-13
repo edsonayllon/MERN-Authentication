@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user.model');
+const passport = require('passport');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const config = require('../config')
-const secret = config.TOKEN_SECRET;
+const User = require('../models/user.model');
+
+
+const config = require('../config');
+
+const secret = config.SECRET_KEY;
 
 
 router.post('/', function(req, res){
