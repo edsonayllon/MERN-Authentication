@@ -1,52 +1,32 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
-
-
 const config = require('../config');
-
 const secret = config.SECRET_KEY;
 
-
-router.post('/', function(req, res){
-  User.findOne({email: req.body.email})
-  .exec()
-  .then(function(user) {
-    bcrypt.compare(req.body.password, user.password, function(err, result){
-      if(err) {
-        return res.status(401).json({
-          message: 'Wrong Email or Password',
-          error: err
-        });
+router.post('/', async (req, res, next) => {
+  passport.authenticate('login', async (err, user, info) => {
+    try {
+      if(err || !user){
+        const error = new Error('An Error occured')
+        return next(error);
       }
-      if(result) {
-        const JWTToken = jwt.sign({
-          email: user.email,
-          _id: user._id
-        }, secret , {
-          // Note: If dealing with sensitive data, such as money/banking,
-          // set the token to expire every hour, else, expire every month
-          expiresIn: '1m'
-        });
-        return res.status(200).json({
-          message: 'Login Successful',
-          token: JWTToken
-        });
-      }
-      return res.status(401).json({
-        message: 'Wrong Email or Password'
+      req.login(user, { session : false }, async (error) => {
+        if( error ) return next(error)
+        //We don't want to store the sensitive information such as the
+        //user password in the token so we pick only the email and id
+        //Sign the JWT token and populate the payload with the user email and id
+        const token = jwt.sign({
+          _id : user.local._id,
+          email : user.local.email
+        }, secret);
+        return res.json({ token });
       });
-     });
-    })
-    .catch(err => {
-      res.status(401).json({
-         error: err,
-         message: 'User does not exist, please register an account'
-    });
-  });;
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
 });
 
 module.exports = router;

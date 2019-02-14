@@ -4,14 +4,15 @@ const path = require('path');
 const cors = require("cors");
 const logger = require('morgan');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
-const checkToken = require('./middleware');
 const indexRouter = require('./routes/index.route');
 const homeRouter = require('./routes/home.route');
 const secretRouter = require('./routes/secret.route');
 const registerRouter = require('./routes/register.route');
 const authenticateRouter = require('./routes/authenticate.route');
 const checkTokenRouter = require('./routes/checkToken.route');
+
 const config = require('./config');
 
 const app = express();
@@ -50,16 +51,26 @@ mongoose.connect(config.MONGO_URI, {
 );
 
 // Passport
-app.use(passport.initialize())
-app.use(passport.session())
+require('./middleware/passport.middleware');
 
 // Routes
 app.use('/', indexRouter);
 app.use('/api/home', homeRouter);
-app.use('/api/secret', checkToken, secretRouter);
-app.use('/api/register', registerRouter);
-app.use('/api/authenticate', authenticateRouter);
-app.use('/api/checkToken', checkToken, checkTokenRouter);
+app.use('/api/secret',
+  passport.authenticate('jwt', { session : false }),
+  secretRouter
+);
+app.use('/api/register',
+  passport.authenticate('signup', { session : false }),
+  registerRouter
+);
+app.use('/api/authenticate',
+  authenticateRouter
+);
+app.use('/api/checkToken',
+  passport.authenticate('jwt', { session : false }),
+  checkTokenRouter
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
