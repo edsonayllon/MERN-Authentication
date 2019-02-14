@@ -5,9 +5,7 @@ const cors = require("cors");
 const logger = require('morgan');
 const mongoose = require('mongoose');
 
-const passport = require('./models/passport.strategy');
-
-const checkHeader = require('./middleware');
+const checkToken = require('./middleware');
 const indexRouter = require('./routes/index.route');
 const homeRouter = require('./routes/home.route');
 const secretRouter = require('./routes/secret.route');
@@ -58,10 +56,10 @@ app.use(passport.session())
 // Routes
 app.use('/', indexRouter);
 app.use('/api/home', homeRouter);
-app.use('/api/secret', checkHeader, secretRouter);
+app.use('/api/secret', checkToken, secretRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/authenticate', authenticateRouter);
-app.use('/api/checkToken', checkHeader, checkTokenRouter);
+app.use('/api/checkToken', checkToken, checkTokenRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

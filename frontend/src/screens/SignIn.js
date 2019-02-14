@@ -111,7 +111,6 @@ export default class SignIn extends Component {
         <Link to="/register">
           <Text style={styles.link}>Create a new account</Text>
         </Link>
-
       </View>
     );
   }

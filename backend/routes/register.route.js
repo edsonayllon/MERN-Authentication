@@ -5,7 +5,6 @@ const User = require('../models/user.model');
 
 const saltRounds = 10;
 
-// POST route to register a user
 router.post('/', function(req, res) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash){
     if (err || req.body.password === "") {
