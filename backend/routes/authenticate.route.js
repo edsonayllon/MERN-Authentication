@@ -10,12 +10,13 @@ router.post('/', function (req, res, next) {
   passport.authenticate('local-login', async (err, user, info) => {
     try {
       if(err || !user){
-        const error = new Error('An Error occured')
+        const error = new Error('An Error occured');
+        return res.status(401).send(info);
         return next(error);
       }
       req.login(user, { session : false }, async (error) => {
         if( error ) return next(error)
-        console.log(user);
+        console.log(error);
         const token = jwt.sign({
           _id : user._id,
           email : user.local.email
@@ -26,6 +27,7 @@ router.post('/', function (req, res, next) {
         });
       });
     } catch (error) {
+      return res.status(401).send(info);
       return next(error);
     }
   })(req, res, next);

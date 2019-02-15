@@ -30,41 +30,46 @@ export default class SignUp extends Component {
 
   signUp = (e) => {
     e.preventDefault();
-    this.setState({loading: true});
-    fetch('http://localhost:4000/api/register', {
-      method: 'POST',
-      body: JSON.stringify(this.state.user),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => {
-      this.setState({loading: false});
-      if (res.status === 200) {
-        res.json().then(json => {
-          this.setState({
-            message: json.message,
-            loginSuccess: true
-          });
-        }).then( () => {
-          this.props.history.push('/login')
-        });
-      } else if (res.status === 400) {
+    if (this.state.user.password === this.state.user.passwordConfirm) {
+      this.setState({loading: true});
+      fetch('http://localhost:4000/api/register', {
+        method: 'POST',
+        body: JSON.stringify(this.state.user),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        this.setState({loading: false});
+        if (res.status === 200) {
           res.json().then(json => {
             this.setState({
               message: json.message,
-              loginSuccess: false
+              loginSuccess: true
             });
+          }).then( () => {
+            this.props.history.push('/login')
           });
-        } else {
-        const error = new Error(res.error);
-        throw error;
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert('Error signing up, please try again');
-    });
+        } else if (res.status === 400) {
+            res.json().then(json => {
+              this.setState({
+                message: json.message,
+                loginSuccess: false
+              });
+            });
+          } else {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error signing up, please try again');
+      });
+    } else {
+      this.setState({message: 'Passwords must match'});
+    }
+
   }
 
   render() {

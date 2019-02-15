@@ -61,7 +61,6 @@ app.use('/api/secret',
   secretRouter
 );
 app.use('/api/register',
-  passport.authenticate('local-register', { session : false }),
   registerRouter
 );
 app.use('/api/authenticate',

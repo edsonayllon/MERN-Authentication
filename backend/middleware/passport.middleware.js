@@ -7,22 +7,22 @@ const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 module.exports = (passport) => {
+
   passport.use('local-register', new LocalStrategy({
     usernameField : 'email',
     passwordField : 'password'
   }, async (email, password, done) => {
     try {
-      //Save the information provided by the user to the the database
       const user = await User.create({
         "local.email": email,
         "local.password": password
       });
-      //Send the user information to the next middleware
-      return done(null, user);
+      return done(null, user, { message : 'Account successfully created' });
     } catch (error) {
-      done(error);
+      return done(null, false, { message : 'User already exists' });
     }
   }));
+
 
   passport.use('local-login', new LocalStrategy({
     usernameField : 'email',
@@ -33,13 +33,13 @@ module.exports = (passport) => {
       const user = await User.findOne({ "local.email": email });
       if( !user ){
         //If the user isn't found in the database, return a message
-        return done(null, false, { message : 'User not found'});
+        return done(null, false, { message : 'Account not found. Check username or register an account'});
       }
       //Validate password and make sure it matches with the corresponding hash stored in the database
       //If the passwords match, it returns a value of true.
       const validate = await user.isValidPassword(password);
       if( !validate ){
-        return done(null, false, { message : 'Wrong Password'});
+        return done(null, false, { message : 'Incorrect Password'});
       }
       //Send the user information to the next middleware
       return done(null, user, { message : 'Logged in Successfully'});
@@ -47,7 +47,6 @@ module.exports = (passport) => {
       return done(error);
     }
   }));
-
 
   //This verifies that the token sent by the user is valid
   passport.use('jwt', new JWTstrategy({

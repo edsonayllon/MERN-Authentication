@@ -49,7 +49,15 @@ Currently, the app can create a new user with an email and password, redirect th
 **Status**: In Progress
 
 - [x] Logout system
-- [ ] Passport.js integration
+- [x] Passport.js integration
+  - [x] Login System
+    - [x] Create a JWT upon login request if successful
+    - [x] Allow access to restricted sections upon login
+    - [x] Send error messages for login
+  - [x] Account Registration System
+    - [x] Create a user with Passport
+    - [x] Confirm matching passwords -- handled by client
+    - [x] Respond if user already exists
 - [ ] Add 0Auth for social logins
   - [ ] Change User Schema for local and social logins
 - [ ] Create user roles
@@ -57,7 +65,7 @@ Currently, the app can create a new user with an email and password, redirect th
   - [ ] Add roles to user schema
   - [ ] Create system to test roles
 - [ ] Verify accounts with Email verification
-- [ ] Add user page that can update email and username in mongodb
+- [ ] Add user page that can update email and username, password in mongodb
 
 ## 3 | Getting Started
 
