@@ -39,7 +39,7 @@ export default class Secret extends Component {
       fetch("http://localhost:4000/api/secret", {
         method: "GET",
         headers: {
-          'authorization': 'Bearer ' + token
+          'Authorization': 'Bearer ' + token
         }
       })
       .then(res => res.text())

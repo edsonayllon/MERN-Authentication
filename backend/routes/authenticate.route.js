@@ -15,9 +15,12 @@ router.post('/', function (req, res, next) {
       req.login(user, { session : false }, async (error) => {
         if( error ) return next(error)
         const body = { _id : user.local._id, email : user.local.email };
-        const token = jwt.sign({ user : body },'top_secret');
-        return res.json({ token });
-      });     
+        const token = jwt.sign({ body }, secret);
+        return res.json({
+          message: 'Login successful',
+          token: token
+        });
+      });
     } catch (error) {
       return next(error);
     }
