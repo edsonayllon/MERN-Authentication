@@ -44,9 +44,9 @@ Currently, the app can create a new user with an email and password, redirect th
 * Attempting to submit with an empty email field
 * Incorrect password for a given email on login
 
-### 2.2 Next level missing features
+### 2.2 Add Passport
 
-**Status**: In Progress
+**Status**: _Complete_
 
 - [x] Logout system
 - [x] Passport.js integration
@@ -58,6 +58,12 @@ Currently, the app can create a new user with an email and password, redirect th
     - [x] Create a user with Passport
     - [x] Confirm matching passwords -- handled by client
     - [x] Respond if user already exists
+
+
+### 2.3 Add Alternative Logins (social)
+
+**Status**: Not started
+
 - [ ] Add 0Auth for social logins
   - [ ] Change User Schema for local and social logins
 - [ ] Create user roles
