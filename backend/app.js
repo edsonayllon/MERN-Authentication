@@ -51,9 +51,9 @@ mongoose.connect(config.MONGO_URI, {
 );
 
 // Passport
-require('./middleware/passport.middleware');
+require('./middleware/passport.middleware')(passport);
 
-// Routes
+// Routes with middleware
 app.use('/', indexRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/secret',
@@ -61,7 +61,7 @@ app.use('/api/secret',
   secretRouter
 );
 app.use('/api/register',
-  passport.authenticate('signup', { session : false }),
+  passport.authenticate('local-register', { session : false }),
   registerRouter
 );
 app.use('/api/authenticate',
