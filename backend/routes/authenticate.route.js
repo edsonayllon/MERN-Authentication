@@ -4,6 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const secret = config.SECRET_KEY;
+const tokenExpiration = "1m";
 
 router.post('/', function (req, res, next) {
   passport.authenticate('local-login', async (err, user, info) => {
@@ -14,8 +15,11 @@ router.post('/', function (req, res, next) {
       }
       req.login(user, { session : false }, async (error) => {
         if( error ) return next(error)
-        const body = { _id : user.local._id, email : user.local.email };
-        const token = jwt.sign({ body }, secret);
+        console.log(user);
+        const token = jwt.sign({
+          _id : user._id,
+          email : user.local.email
+        }, secret, { expiresIn: tokenExpiration });
         return res.json({
           message: 'Login successful',
           token: token
