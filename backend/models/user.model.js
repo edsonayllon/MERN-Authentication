@@ -1,7 +1,7 @@
 // User Schema holds user password and email
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const saltRounds = 14;
 
 const UserSchema = new mongoose.Schema({
   local: {
