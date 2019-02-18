@@ -60,12 +60,8 @@ app.use('/api/secret',
   passport.authenticate('jwt', { session : false }),
   secretRouter
 );
-app.use('/api/register',
-  registerRouter
-);
-app.use('/api/authenticate',
-  authenticateRouter
-);
+app.use('/api/register', registerRouter);
+app.use('/api/authenticate', authenticateRouter);
 app.use('/api/checkToken',
   passport.authenticate('jwt', { session : false }),
   checkTokenRouter
