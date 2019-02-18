@@ -30,8 +30,17 @@ export default class SignUp extends Component {
 
   signUp = (e) => {
     e.preventDefault();
-    if (this.state.user.password === this.state.user.passwordConfirm) {
-      this.setState({loading: true});
+    if (!(this.state.user.password === this.state.user.passwordConfirm)) {
+      this.setState({ message: 'Passwords must match' });
+    } else if (this.state.user.password === '') {
+      this.setState({ message: 'Must enter a password' });
+    } else if (this.state.user.email === '') {
+      this.setState({ message: 'Must enter a username' });
+    } else {
+      this.setState({
+        loading: true,
+        message: '',
+      });
       fetch('http://localhost:4000/api/register', {
         method: 'POST',
         body: JSON.stringify(this.state.user),
@@ -51,13 +60,13 @@ export default class SignUp extends Component {
             this.props.history.push('/login')
           });
         } else if (res.status === 400) {
-            res.json().then(json => {
-              this.setState({
-                message: json.message,
-                loginSuccess: false
-              });
+          res.json().then(json => {
+            this.setState({
+              message: json.message,
+              loginSuccess: false
             });
-          } else {
+          });
+        } else {
           const error = new Error(res.error);
           throw error;
         }
@@ -66,10 +75,7 @@ export default class SignUp extends Component {
         console.error(err);
         alert('Error signing up, please try again');
       });
-    } else {
-      this.setState({message: 'Passwords must match'});
     }
-
   }
 
   render() {
