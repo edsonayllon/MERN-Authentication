@@ -3,6 +3,9 @@ import {
   View,
   Text
 } from 'react-native';
+import { Input, Button } from '../components';
+import { Link } from '../navigation';
+import styles from '../stylesheet';
 
 
 export default class ForgotPassword extends Component {
@@ -11,6 +14,7 @@ export default class ForgotPassword extends Component {
     showError: false,
     message: '',
     showNullError: false,
+    loading: false
   }
 
   handleChange = name => (event) => {
@@ -22,57 +26,71 @@ export default class ForgotPassword extends Component {
 
   sendEmail = (e) => {
     e.preventDefault();
-    const { email } = this.state;
-    if (email === '') {
+    this.setState({
+      loading: true
+    });
+    if (this.state.email === '') {
       this.setState({
         showError: false,
-        message: '',
+        message: 'Email required',
         showNullError: true,
       });
     } else {
-      componentDidMount() {
-         fetch('http://localhost:4000/forgot-password', {
-           method: 'POST',
-           headers: {
-             'Content-Type': 'application/json'
-           }
-         })
-         .then(res => res.json())
-         .then(api => {
-           this.setState({ apiState:  api})
-         });
-       }
-
-      axios
-        .post('http://localhost:3003/forgotPassword', {
-          email,
-        })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data === 'recovery email sent') {
+      fetch('http://localhost:4000/apilocation', {
+        method: 'POST',
+        body: JSON.stringify(this.state.email),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          res.json().then(json => {
             this.setState({
-              showError: false,
-              messageFromServer: 'recovery email sent',
-              showNullError: false,
+              message: json.message,
             });
-          }
-        })
-        .catch((error) => {
-          console.error(error.response.data);
-          if (error.response.data === 'email not in db') {
+          });
+        } else if (res.status === 401) {
+          res.json().then(json => {
             this.setState({
-              showError: true,
-              messageFromServer: '',
-              showNullError: false,
+              message: json.message,
             });
-          }
-        });
+          });
+        } else {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
     }
   };
 
   render() {
     return (
-
+      <View>
+        <Text style = {{fontWeight: 'bold'}}>Trouble Logging In?</Text>
+        <Text>Enter your email and a link will be sent
+         to re-enter your account.</Text>
+        <Input
+            placeholder="Email"
+            type='email'
+            name='email'
+            onChangeText={this.onInputChange}
+            value={this.state.email}
+        />
+        <Button
+          isLoading = {this.state.loading}
+          title='Send Password Reset'
+          onPress={this.signIn}
+        />
+        <Text>OR</Text>
+        <Link to="/register">
+          <Text style={styles.link}>Create a new account</Text>
+        </Link>
+        <Link to="/login">
+          <Text style={styles.link}>Return to Login</Text>
+        </Link>
+      </View>
     );
   }
 }
