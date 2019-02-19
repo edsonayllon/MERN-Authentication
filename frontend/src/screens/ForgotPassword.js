@@ -11,29 +11,28 @@ import styles from '../stylesheet';
 export default class ForgotPassword extends Component {
   state = {
     email: '',
-    showError: false,
     message: '',
-    showNullError: false,
     loading: false
   }
 
-  handleChange = name => (event) => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
+  onInputChange = (key, value) => {
+    this.setState(prevState => ({
+      ...prevState,
+      [key]: value
+    }))
+  }
 
 
   sendEmail = (e) => {
     e.preventDefault();
     this.setState({
-      loading: true
+      loading: true,
+      message: ''
     });
     if (this.state.email === '') {
       this.setState({
-        showError: false,
         message: 'Email required',
-        showNullError: true,
+        loading: false
       });
     } else {
       fetch('http://localhost:4000/apilocation', {
@@ -51,7 +50,7 @@ export default class ForgotPassword extends Component {
               message: json.message,
             });
           });
-        } else if (res.status === 401) {
+        } else if (res.status === 403) {
           res.json().then(json => {
             this.setState({
               message: json.message,
@@ -66,23 +65,28 @@ export default class ForgotPassword extends Component {
   };
 
   render() {
+    console.log(this.state)
     return (
       <View>
         <Text style = {{fontWeight: 'bold'}}>Trouble Logging In?</Text>
         <Text>Enter your email and a link will be sent
          to re-enter your account.</Text>
         <Input
-            placeholder="Email"
-            type='email'
-            name='email'
-            onChangeText={this.onInputChange}
-            value={this.state.email}
+          placeholder="Email"
+          type='email'
+          name='email'
+          onChangeText={this.onInputChange}
+          value={this.state.email}
         />
         <Button
           isLoading = {this.state.loading}
           title='Send Password Reset'
-          onPress={this.signIn}
+          onPress={this.sendEmail}
         />
+        <Text style={this.state.loginSuccess
+        ? styles.loginSuccess : styles.loginFailure} >
+          {this.state.message}
+        </Text>
         <Text>OR</Text>
         <Link to="/register">
           <Text style={styles.link}>Create a new account</Text>
