@@ -59,8 +59,17 @@ Currently, the app can create a new user with an email and password, redirect th
     - [x] Confirm matching passwords -- handled by client
     - [x] Respond if user already exists
 
+### 2.3 Add email verification and password reset
 
-### 2.3 Add Alternative Logins (social)
+
+- [ ] Fully functioning reset email with Mongodb
+  - [x] Create a forgot password form in the frontend
+  - [x] Add ability to email users who sign up
+  - [x] Email users who submit the forgot password form
+  - [x] Create a reset password token, add it to the Email
+- [ ] Fully functioning email verification with Mongodb
+
+### 2.4 Add Alternative Logins (social)
 
 **Status**: Not started
 
