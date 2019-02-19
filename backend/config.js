@@ -1,12 +1,10 @@
 require('dotenv').config({ path: 'variables.env' });
 
 module.exports = {
-  // 1. MongoDB
   MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost/react-auth',
-
-  // 2. JWT
   SECRET_KEY: process.env.SECRET_KEY || 'pvpnCCZfwOF85pBjbOebZiYIDhZ3w9LZrKwBZ7152K89mPCOHtbRlmr5Z91ci4L',
-
-  // 3. Express Server Port
-  PORT: process.env.PORT || 4000
+  PORT: process.env.PORT || 4000,
+  MAIL_USER: process.env.MAIL_USER || "noreply@example.com",
+  MAIL_PASS: process.env.MAIL_PASS || "secret-password",
+  COMPANY_NAME: process.env.COMPANY_NAME || "Enter Your Company Name Here"
 };

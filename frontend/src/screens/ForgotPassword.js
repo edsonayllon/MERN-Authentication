@@ -47,13 +47,14 @@ export default class ForgotPassword extends Component {
           res.json().then(json => {
             this.setState({
               message: json.message,
-              serverSuccess: true,
+              serverSuccess: true
             });
           });
         } else if (res.status === 403) {
           res.json().then(json => {
             this.setState({
               message: json.message,
+              serverSuccess: false
             });
           });
         } else {
