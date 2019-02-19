@@ -99,6 +99,9 @@ export default class SignIn extends Component {
             value={this.state.user.password}
             secureTextEntry
           />
+        <Link to="/forgotPassword">
+          <Text style={styles.link}>Forgot Password?</Text>
+        </Link>
         <Button
           isLoading = {this.state.loading}
           title='Sign In'

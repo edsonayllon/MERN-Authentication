@@ -4,7 +4,7 @@ import {
   FlatList
 } from 'react-native';
 import { Router, Link, Route } from './';
-import { Home, Secret, SignIn, SignUp } from '../screens';
+import { Home, Secret, SignIn, SignUp, ForgotPassword } from '../screens';
 import withAuth from '../components/withAuth';
 
 
@@ -36,6 +36,11 @@ export default class MainRouter extends Component {
         path: '/register',
         component: SignUp,
         title: 'Sign Up'
+      },
+      {
+        path: '/forgot-password',
+        component: ForgotPassword,
+        title: 'Password Reset'
       }
     ];
 
