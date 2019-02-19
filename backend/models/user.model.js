@@ -6,7 +6,9 @@ const saltRounds = 14;
 const UserSchema = new mongoose.Schema({
   local: {
     email: { type: String, required: false, unique: true },
-    password: { type: String, required: false }
+    password: { type: String, required: false },
+    passwordResetHash: { type: String },
+    passwordResetExpiry: { type: Number}
   }
 });
 

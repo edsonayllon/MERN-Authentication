@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
-const mail = require('../services/mail.service');
+const mailService = require('../services/mail.service');
+const userService = require('../services/user.service');
 
 router.post('/', async (req, res) => {
   try {
     const user = await User.findOne({ 'local.email': req.body.email });
     if (user) {
-      mail.sendPasswordReset(req.body.email)
+      let passToken = await userService.generatePasswordResetToken(user.local.email)
+      await mailService.sendPasswordReset(req.body.email, passToken)
       return res.status(200).json({
         message: `Email sent to ${req.body.email}`,
       });
