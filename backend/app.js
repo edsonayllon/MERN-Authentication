@@ -11,6 +11,7 @@ const homeRouter = require('./routes/home.route');
 const secretRouter = require('./routes/secret.route');
 const registerRouter = require('./routes/register.route');
 const authenticateRouter = require('./routes/authenticate.route');
+const forgotPasswordRouter = require('./routes/forgotPassword.route');
 const checkTokenRouter = require('./routes/checkToken.route');
 
 const config = require('./config');
@@ -62,6 +63,7 @@ app.use('/api/secret',
 );
 app.use('/api/register', registerRouter);
 app.use('/api/authenticate', authenticateRouter);
+app.use('/api/forgot-password', forgotPasswordRouter);
 app.use('/api/checkToken',
   passport.authenticate('jwt', { session : false }),
   checkTokenRouter

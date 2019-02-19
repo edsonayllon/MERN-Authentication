@@ -7,7 +7,6 @@ import { Input, Button } from '../components';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
 
-
 export default class ForgotPassword extends Component {
   state = {
     email: '',
@@ -22,7 +21,6 @@ export default class ForgotPassword extends Component {
     }))
   }
 
-
   sendEmail = (e) => {
     e.preventDefault();
     this.setState({
@@ -35,12 +33,11 @@ export default class ForgotPassword extends Component {
         loading: false
       });
     } else {
-      fetch('http://localhost:4000/apilocation', {
+      fetch('http://localhost:4000/api/forgot-password', {
         method: 'POST',
         body: JSON.stringify(this.state.email),
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
         }
       })
       .then(res => {
