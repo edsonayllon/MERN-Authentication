@@ -57,11 +57,10 @@ module.exports.sendPasswordReset =  (recipients, token) => {
   };
 
   transporter.sendMail(mailOptions, function(error, info){
-    console.log(info)
     if(error){
       return console.log(error);
     }
 
-    console.log('Message sent: ' + info.response);
+    console.log(`Mailer: ${info.response}`);
   });
 };
