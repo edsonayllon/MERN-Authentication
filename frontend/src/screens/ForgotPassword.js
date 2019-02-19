@@ -11,7 +11,8 @@ export default class ForgotPassword extends Component {
   state = {
     email: '',
     message: '',
-    loading: false
+    loading: false,
+    serverSuccess: false,
   }
 
   onInputChange = (key, value) => {
@@ -35,16 +36,18 @@ export default class ForgotPassword extends Component {
     } else {
       fetch('http://localhost:4000/api/forgot-password', {
         method: 'POST',
-        body: JSON.stringify(this.state.email),
+        body: JSON.stringify({ email: this.state.email }),
         headers: {
           'Content-Type': 'application/json',
         }
       })
       .then(res => {
+        this.setState({ loading: false });
         if (res.status === 200) {
           res.json().then(json => {
             this.setState({
               message: json.message,
+              serverSuccess: true,
             });
           });
         } else if (res.status === 403) {
@@ -58,6 +61,9 @@ export default class ForgotPassword extends Component {
           throw error;
         }
       })
+      .catch(err => {
+        console.error(err);
+      });
     }
   };
 
@@ -80,7 +86,7 @@ export default class ForgotPassword extends Component {
           title='Send Password Reset'
           onPress={this.sendEmail}
         />
-        <Text style={this.state.loginSuccess
+        <Text style={this.state.serverSuccess
         ? styles.loginSuccess : styles.loginFailure} >
           {this.state.message}
         </Text>
