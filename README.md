@@ -61,6 +61,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 2.3 Add email verification and password reset
 
+**Status**: *In Progress*
 
 - [ ] Fully functioning reset email with Mongodb
   - [x] Create a forgot password form in the frontend
@@ -71,7 +72,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 2.4 Add Alternative Logins (social)
 
-**Status**: Not started
+**Status**: *Not started*
 
 - [ ] Add 0Auth for social logins
   - [ ] Change User Schema for local and social logins
