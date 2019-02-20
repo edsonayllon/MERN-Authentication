@@ -14,15 +14,15 @@ export default class SignIn extends Component {
       email: '',
       password: ''
     },
-    newJWT: '',
     loading: false,
     message: '',
     loginSuccess: false
   }
 
-  _storeToken = async () => {
+  _storeToken = async (token) => {
     try {
-      const jsonItem = await AsyncStorage.setItem("JWT_TOKEN", JSON.stringify(this.state.newJWT));
+      const jsonItem = await AsyncStorage.setItem("JWT_TOKEN", JSON.stringify(token));
+      console.log(jsonItem)
       return jsonItem
     } catch (err) {
       console.log(err.message)
@@ -38,44 +38,48 @@ export default class SignIn extends Component {
     }))
   }
 
-  signIn = (e) => {
+  signIn = async (e) => {
     e.preventDefault();
     this.setState({loading: true});
-    fetch('http://localhost:4000/api/authenticate', {
-      method: 'POST',
-      body: JSON.stringify(this.state.user),
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      }
-    })
-    .then(res => {
-      this.setState({loading: false});
-      if (res.status === 200) {
-        res.json().then(json => {
-          this.setState({
-            newJWT: json.token,
+    try {
+      const res = await fetch('http://localhost:4000/api/authenticate', {
+        method: 'POST',
+        body: JSON.stringify(this.state.user),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }
+      });
+      const json = await res.json();
+      const status = await res.status;
+      await json
+      this.setState({ loading: false });
+      switch(status) {
+        case 200:
+          this._storeToken( json.token );
+          await this.setState({
             message: json.message,
-            loginSuccess: true
+            loginSuccess: true,
           });
-          this._storeToken();
           this.props.history.push('/secret')
-        });
-      } else if (res.status === 401) {
-        res.json().then(json => {
+          break;
+        case 401:
           this.setState({
             message: json.message,
-            loginSuccess: false
+            loginSuccess: false,
           });
-        });
-      } else {
-        const error = new Error(res.error);
-        throw error;
+          break;
+        default:
+          const error = new Error(res.error);
+          throw error;
       }
-    })
-    .catch(err => {
+    } catch (err) {
       console.error(err);
-    });
+      this.setState({
+        message: 'Error connecting to server, check internet connection',
+        loginSuccess: false
+      });
+    }
   }
 
 

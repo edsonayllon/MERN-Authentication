@@ -47,7 +47,33 @@ module.exports.sendPasswordReset =  (recipients, token) => {
     from: `${config.COMPANY_NAME} <${config.MAIL_USER}>`, // sender address (who sends)
     to: recipients, // list of receivers (who receives)
     subject: `Reset your ${config.COMPANY_NAME} password`, // Subject line
-    text: 'Hello world ', // plaintext body
+    text: `Hello\n\n
+    We received a password reset request for your account. Click the link below to enter a
+    new password. If you didn't request a password reset, you can
+    safely ignore this email.\n\n
+    http://localhost:3000/reset/${token}`, // plaintext body
+    html: `<h2>Hello</h2>
+    <p> We received a password reset request for your account. Click
+    <a href="http://localhost:3000/reset/${token}">the link below</a> to enter a
+    new password. If you didn't request a password reset, you can
+    safely ignore this email.</p> <br/> <br/> http://localhost:3000/reset/${token}` // html body
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+      return console.log(error);
+    }
+
+    console.log(`Mailer: ${info.response}`);
+  });
+};
+
+module.exports.sendEmailVerification =  (recipients, token) => {
+  var mailOptions = {
+    from: `${config.COMPANY_NAME} <${config.MAIL_USER}>`, // sender address (who sends)
+    to: recipients, // list of receivers (who receives)
+    subject: `Activate your ${config.COMPANY_NAME} account`, // Subject line
+    text: `Hello world`, // plaintext body
     html: `<h2>Hello</h2>
     <p> We received a password reset request for your account. A reset link has
     been generated for the following five minutes. Click

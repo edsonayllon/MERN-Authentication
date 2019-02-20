@@ -55,7 +55,6 @@ module.exports = (passport) => {
   }, async (payload, done) => {
     try {
       //Pass the user details to the next middleware
-      console.log(payload)
       return done(null, payload.email);
     } catch (error) {
       console.log(error)
