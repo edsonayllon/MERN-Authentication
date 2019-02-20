@@ -6,13 +6,17 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+// auth routes
+const checkTokenRouter = require('./routes/auth/checkToken.route');
+const registerRouter = require('./routes/auth/register.route');
+const authenticateRouter = require('./routes/auth/authenticate.route');
+const forgotPasswordRouter = require('./routes/auth/forgotPassword.route');
+const resetPasswordRouter = require('./routes/auth/resetPassword.route');
+
+// api routes
 const indexRouter = require('./routes/index.route');
 const homeRouter = require('./routes/home.route');
 const secretRouter = require('./routes/secret.route');
-const registerRouter = require('./routes/register.route');
-const authenticateRouter = require('./routes/authenticate.route');
-const forgotPasswordRouter = require('./routes/forgotPassword.route');
-const checkTokenRouter = require('./routes/checkToken.route');
 
 const config = require('./config');
 

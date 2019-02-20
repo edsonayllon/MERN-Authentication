@@ -56,7 +56,7 @@ module.exports.sendPasswordReset =  (recipients, token) => {
     <p> We received a password reset request for your account. Click
     <a href="http://localhost:3000/reset/${token}">the link below</a> to enter a
     new password. If you didn't request a password reset, you can
-    safely ignore this email.</p> <br/> <br/> http://localhost:3000/reset/${token}` // html body
+    safely ignore this email.</p> <br/> <br/> http://localhost:3000/reset/${encodeURIComponent(token)}` // html body
   };
 
   transporter.sendMail(mailOptions, function(error, info){
@@ -79,7 +79,7 @@ module.exports.sendEmailVerification =  (recipients, token) => {
     been generated for the following five minutes. Click
     <a href="http://localhost:3000/reset/${token}">the link below</a> to enter a
     new password. If you didn't request a password reset, you can
-    safely ignore this email.</p> <br/> <br/> http://localhost:3000/reset/${token}` // html body
+    safely ignore this email.</p> <br/> <br/> http://localhost:3000/reset/${encodeURIComponent(token)}` // html body
   };
 
   transporter.sendMail(mailOptions, function(error, info){

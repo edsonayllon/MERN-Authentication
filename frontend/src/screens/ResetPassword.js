@@ -23,6 +23,22 @@ export default class ForgotPassword extends Component {
     }))
   }
 
+  async componentDidMount() {
+    try {
+      const resetToken = this.props.match.params.token; //reads the url
+      console.log(resetToken)
+      const res = await fetch('http://localhost:4000/password-reset', {
+        method: 'GET',
+        query: {
+          passwordResetToken: resetToken,
+        },
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   sendEmail = async (e) => {
     e.preventDefault();
     this.setState({

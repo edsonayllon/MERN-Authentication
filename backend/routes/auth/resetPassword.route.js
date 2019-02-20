@@ -1,12 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
-const mailService = require('../services/mail.service');
-const userService = require('../services/user.service');
+const mailService = require('../../services/mail.service');
+const userService = require('../../services/user.service');
 
 router.post('/', async (req, res) => {
   try {
-    const user = await User.findOne({ 'local.email': req.body.email });
+    const user = await User.findOne({
+      'local.passwordResetHash': req.body.passwordResetToken,
+      'locol.resetPasswordExpires': {
+        [Op.gt]: Date.now()
+      },
+    });
     if (user) {
       let passToken = await userService.generatePasswordResetToken(user.local.email)
       await mailService.sendPasswordReset(req.body.email, passToken)
