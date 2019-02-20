@@ -35,7 +35,7 @@ export default class ForgotPassword extends Component {
       });
     } else {
       try {
-        const res = fetch('http://localhost:4000/api/forgot-password', {
+        const res = await fetch('http://localhost:4000/api/forgot-password', {
           method: 'POST',
           body: JSON.stringify({ email: this.state.email }),
           headers: {
@@ -49,19 +49,22 @@ export default class ForgotPassword extends Component {
 
         switch (status) {
           case 200:
+            await json;
             this.setState({
               message: json.message,
               serverSuccess: true
             });
+            break;
           case 403:
             this.setState({
               message: json.message,
               serverSuccess: false
             });
+            break;
           default:
             const error = new Error(res.error);
             throw error;
-        }
+        };
       } catch (err) {
         console.error(err);
       }
