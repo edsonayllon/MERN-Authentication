@@ -4,7 +4,14 @@ import {
   FlatList
 } from 'react-native';
 import { Router, Link, Route } from './';
-import { Home, Secret, SignIn, SignUp, ForgotPassword } from '../screens';
+import {
+  Home,
+  Secret,
+  SignIn,
+  SignUp,
+  ForgotPassword,
+  ResetPassword 
+} from '../screens';
 import withAuth from '../components/withAuth';
 
 
@@ -40,7 +47,12 @@ export default class MainRouter extends Component {
       {
         path: '/forgot-password',
         component: ForgotPassword,
-        title: 'Password Reset'
+        title: 'Forgot Password'
+      },
+      {
+        path: '/reset/:token',
+        component: ResetPassword,
+        title: 'Reset Password'
       }
     ];
 

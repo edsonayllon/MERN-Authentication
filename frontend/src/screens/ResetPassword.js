@@ -9,7 +9,6 @@ import styles from '../stylesheet';
 
 export default class ForgotPassword extends Component {
   state = {
-    email: '',
     password: '',
     confirmPassword: '',
     message: '',
@@ -24,69 +23,74 @@ export default class ForgotPassword extends Component {
     }))
   }
 
-  sendEmail = (e) => {
+  sendEmail = async (e) => {
     e.preventDefault();
     this.setState({
       loading: true,
       message: ''
-    });
-    if (this.state.email === '') {
+    })
+    if (!(this.state.password === this.state.passwordConfirm)) {
       this.setState({
-        message: 'Email required',
+        message: 'Passwords must match',
         loading: false
       });
     } else {
-      fetch('http://localhost:4000/api/forgot-password', {
-        method: 'POST',
-        body: JSON.stringify({ email: this.state.email }),
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-      .then(res => {
+      try {
+        const res = fetch('http://localhost:4000/api/forgot-password', {
+          method: 'POST',
+          body: JSON.stringify({ email: this.state.password }),
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        const json = await res.json();
+        const status = await res.status;
+        await json;
         this.setState({ loading: false });
-        if (res.status === 200) {
-          res.json().then(json => {
+
+        switch (status) {
+          case 200:
             this.setState({
               message: json.message,
               serverSuccess: true
             });
-          });
-        } else if (res.status === 403) {
-          res.json().then(json => {
+          case 403:
             this.setState({
               message: json.message,
               serverSuccess: false
             });
-          });
-        } else {
-          const error = new Error(res.error);
-          throw error;
+          default:
+            const error = new Error(res.error);
+            throw error;
         }
-      })
-      .catch(err => {
+      } catch (err) {
         console.error(err);
-      });
+      }
     }
-  };
+  }
 
   render() {
     console.log(this.state)
     return (
       <View>
-        <Text style = {{fontWeight: 'bold'}}>Trouble Logging In?</Text>
-        <Text>Enter your email and a link will be sent
-         to re-enter your account.</Text>
+        <Text style = {{fontWeight: 'bold'}}>Reset your password</Text>
         <Input
-          placeholder="Email"
-          type='email'
-          name='email'
+          placeholder="New password"
+          type='password'
+          name='password'
           onChangeText={this.onInputChange}
-          value={this.state.email}
+          value={this.state.password}
+        />
+        <Input
+          placeholder="Re-enter new password"
+          type='passwordConfirm'
+          name='passwordConfirm'
+          onChangeText={this.onInputChange}
+          value={this.state.passwordConfirm}
         />
         <Button
           isLoading = {this.state.loading}
-          title='Send Password Reset'
+          title='Update Password'
           onPress={this.sendEmail}
         />
         <Text style={this.state.serverSuccess
@@ -94,9 +98,6 @@ export default class ForgotPassword extends Component {
           {this.state.message}
         </Text>
         <Text>OR</Text>
-        <Link to="/register">
-          <Text style={styles.link}>Create a new account</Text>
-        </Link>
         <Link to="/login">
           <Text style={styles.link}>Return to Login</Text>
         </Link>

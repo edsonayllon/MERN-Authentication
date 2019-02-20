@@ -22,7 +22,6 @@ export default class SignIn extends Component {
   _storeToken = async (token) => {
     try {
       const jsonItem = await AsyncStorage.setItem("JWT_TOKEN", JSON.stringify(token));
-      console.log(jsonItem)
       return jsonItem
     } catch (err) {
       console.log(err.message)

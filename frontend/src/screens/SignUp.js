@@ -51,24 +51,26 @@ export default class SignUp extends Component {
         });
         const json = await res.json();
         const status = await res.status;
+        await json
+        this.setState({ loading: false });
 
         switch(status) {
           case 200:
-            await this.setState({
+            await json
+            this.setState({
               message: json.message,
               loginSuccess: true,
               loading: false
             });
-            await json
             this.props.history.push('/login')
           case 400:
-            await this.setState({
+            this.setState({
               message: json.message,
               loginSuccess: false,
               loading: false,
             });
           default:
-            await this.setState({
+            this.setState({
               message: json.message,
               loginSuccess: false,
               loading: false

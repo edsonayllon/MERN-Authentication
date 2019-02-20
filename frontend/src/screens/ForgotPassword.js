@@ -22,51 +22,51 @@ export default class ForgotPassword extends Component {
     }))
   }
 
-  sendEmail = (e) => {
+  sendEmail = async (e) => {
     e.preventDefault();
     this.setState({
       loading: true,
       message: ''
-    });
+    })
     if (this.state.email === '') {
       this.setState({
         message: 'Email required',
         loading: false
       });
     } else {
-      fetch('http://localhost:4000/api/forgot-password', {
-        method: 'POST',
-        body: JSON.stringify({ email: this.state.email }),
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-      .then(res => {
+      try {
+        const res = fetch('http://localhost:4000/api/forgot-password', {
+          method: 'POST',
+          body: JSON.stringify({ email: this.state.email }),
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        const json = await res.json();
+        const status = await res.status;
+        await json;
         this.setState({ loading: false });
-        if (res.status === 200) {
-          res.json().then(json => {
+
+        switch (status) {
+          case 200:
             this.setState({
               message: json.message,
               serverSuccess: true
             });
-          });
-        } else if (res.status === 403) {
-          res.json().then(json => {
+          case 403:
             this.setState({
               message: json.message,
               serverSuccess: false
             });
-          });
-        } else {
-          const error = new Error(res.error);
-          throw error;
+          default:
+            const error = new Error(res.error);
+            throw error;
         }
-      })
-      .catch(err => {
+      } catch (err) {
         console.error(err);
-      });
+      }
     }
-  };
+  }
 
   render() {
     console.log(this.state)
