@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const argon2 = require('argon2');
 const User = require('../models/user.model');
 
-module.exports.generatePasswordResetToken = async (email) => {
+const generatePasswordResetToken = async (email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
     if (!user) {
@@ -14,16 +14,16 @@ module.exports.generatePasswordResetToken = async (email) => {
       user.local.passwordResetExpiry = new Date().valueOf() + (1000 * 60 * 5) // 5 minutes
       user.save();
       return token;
-      })
     }
   } catch (err) {
     throw new Error('error getting user')
   }
 }
 
-module.export.checkPasswordResetToken = async (token, email) => {
+
+const checkPasswordResetToken = async (token, email) => {
   try {
-    const user = await User.findOne({email: email});
+    const user = await User.findOne({ 'local.email': email });
     if (!user) {
       console.log('error from if statement');
       throw new Error('error getting user');
@@ -38,7 +38,7 @@ module.export.checkPasswordResetToken = async (token, email) => {
         console.log('expired');
         return ({
           verified: false,
-          info: `Your reset token has expired. Please request another``
+          info: 'Your reset token has expired. Please request another'
         })
       }
     }
@@ -50,9 +50,9 @@ module.export.checkPasswordResetToken = async (token, email) => {
 }
 
 
-module.export.resetPassword = async (email, password) => {
+const resetPassword = async (email, password) => {
   try {
-    const user = await User.findOne({email: email});
+    const user = await User.findOne({ 'local.email': email });
     console.log(user);
     if (!user) {
       throw new Error('error getting user')
@@ -67,4 +67,10 @@ module.export.resetPassword = async (email, password) => {
     console.log('error from catch')
     throw new Error('error getting user')
   }
+}
+
+module.exports = {
+  generatePasswordResetToken,
+  checkPasswordResetToken,
+  resetPassword,
 }
