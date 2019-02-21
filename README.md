@@ -102,11 +102,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 3.1 Installing
 
-1. Clone the project.
-
-This project requires Node.js to be installed on your system.
-
-2. Install dependencies in both `./frontend` and `./backend`
+1. Install dependencies in both `cd ./frontend` and `cd ./backend`
 
 ```
 npm install || yarn
@@ -114,18 +110,33 @@ npm install || yarn
 
 Authentication requires MongoDB to be installed on your system. MongoDB can be installed with [HomeBrew on Mac](https://treehouse.github.io/installation-guides/mac/mongo-mac.html)
 
-3. In `./backend` create a new file `variables.env`.
+2. In `./backend` create a new file `variables.env`.
 
-Add a secret key to `variables.env`.
+Add a secret key to `variables.env`. The secret key can be whatever you would like.
+This step is optional for this app if not running for production.
 
 ```
 AUTH_SECRET_KEY = "Secret Key"
 ```
 
-And add your mongodb uri with your credentials in `variables.env`:
+And add your mongodb uri with your credentials in `variables.env`: This step is
+optional for this app in not running for production.
 
 ```
 MONGO_URI = "Mongo uri with credentials"
+```
+
+And add credentials for a mailing client you will use to send your emails.
+Integrated services include Zoho, Gmail, and Outlook. This app uses nodemailer
+to send emails. This step is required if you would like to enable password
+resets.
+
+Inside `./backend/variables.env`.
+
+```
+MAIL_USER = "your email"
+MAIL_PASS = "your email password"
+APP_NAME = "your app name"
 ```
 
 ### 3.2 Running
@@ -136,7 +147,7 @@ You can run as a web app, mobile app, or desktop app.
 
 You must run the backend first. The backend requires MongoD to be running first.
 
-In `./backend`:
+Inside `./backend`:
 
 1. Begin MongoD.
 
@@ -155,11 +166,13 @@ changes in code.
 
 The back-end will be running in localhost:4000 with current settings.
 
+You can see your mongodb
+
 #### Running the Frontend
 
 The front-end will run in localhost:3000 with current settings.
 
-In `./frontend`:
+Inside `./frontend`:
 
 
 For Web:
