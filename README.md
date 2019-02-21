@@ -70,7 +70,10 @@ Currently, the app can create a new user with an email and password, redirect th
   - [x] Create a reset password token, add it to the Email
   - [x] Have email push to a URL on the frontend containing the token
   - [x] Read the token in the URL, save as a variable in the Client
-  - [ ] Receive the email reset token in the server
+  - [x] Send the password reset token from the Client to the Server
+  - [x] Check to see if password reset token expired in the Server using Mongodb
+  - [x] If token expired, send expiration notice to the client, have client display message
+  - [ ]
 - [ ] Fully functioning email verification with Mongodb
 - [ ] Other Updates
   - [x] Changed hashing function for passwords from bcrypt to Argon2 https://password-hashing.net/
