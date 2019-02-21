@@ -111,7 +111,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 3.1 Installing
 
-Install dependencies in both `./frontend` and `./backend`
+Install dependencies in both `cd ./frontend` and `cd ./backend`
 
 ```
 npm install || yarn
@@ -141,7 +141,7 @@ You can run as a web app, mobile app, or desktop app.
 
 You must run the backend first. The backend requires MongoD to be running first.
 
-In `./backend`:
+In `cd ./backend`:
 
 Begin MongoD.
 
@@ -164,7 +164,7 @@ The back-end will be running in localhost:4000 with current settings.
 
 The front-end will run in localhost:3000 with current settings.
 
-In `./frontend`:
+In `cd ./frontend`:
 
 
 For Web:
