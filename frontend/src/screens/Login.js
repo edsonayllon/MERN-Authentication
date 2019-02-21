@@ -8,7 +8,7 @@ import { Input, Button } from '../components';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
 
-export default class SignIn extends Component {
+export default class Login extends Component {
   state = {
     user: {
       email: '',

@@ -7,7 +7,7 @@ import { Input, Button } from '../components';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
 
-export default class SignUp extends Component {
+export default class Register extends Component {
   state = {
     user: {
       email: '',

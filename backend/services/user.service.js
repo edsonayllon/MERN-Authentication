@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const argon2 = require('argon2');
 const User = require('../models/user.model');
 
-const generatePasswordResetToken = async (email) => {
+module.exports.generatePasswordResetToken = async (email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
     if (!user) {
@@ -20,8 +20,25 @@ const generatePasswordResetToken = async (email) => {
   }
 }
 
+module.exports.generateEmailVerifyToken = async (email) => {
+  try {
+    const user = await User.findOne({ 'local.email': email });
+    if (!user) {
+      throw new Error('error getting user')
+    } else {
+      let token = await crypto.randomBytes(32).toString('base64')
+      let hash = await argon2.hash(token, { type: argon2.argon2id })
+      user.local.emailVerificationHash = hash;
+      user.local.emailVerificationExpiry = new Date().valueOf() + (1000 * 60 * 60) // 60 minutes
+      await user.save()
+      return token;
+    }
+  } catch (err) {
+    throw new Error('error getting user')
+  }
+}
 
-const checkPasswordResetToken = async (token, email) => {
+module.exports.checkPasswordResetToken = async (token, email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
     if (user.local.passwordResetExpiry > new Date().valueOf()) {
@@ -43,7 +60,7 @@ const checkPasswordResetToken = async (token, email) => {
 
 }
 
-const resetPassword = async (email, password) => {
+module.exports.resetPassword = async (email, password) => {
   try {
     const user = await User.findOne({ 'local.email': email });
     if (!user) {
@@ -61,14 +78,14 @@ const resetPassword = async (email, password) => {
   }
 }
 
-const verifyEmailAddress = async (email, emailVerificationString) => {
+module.exports.verifyEmailAddress = async (email, emailVerificationToken) => {
   try {
     const user = await User.findOne({'local.email': email});
-    if (user.emailVerificationExpiry > new Date().valueOf()) {
+    if (user.local.emailVerificationExpiry > new Date().valueOf()) {
       try {
         const verified = await argon2.verify(
           user.local.emailVerificationHash,
-          emailVerificationString
+          emailVerificationToken
         );
         console.log('verified fro argon2');
         console.log(verified);
@@ -94,10 +111,3 @@ const verifyEmailAddress = async (email, emailVerificationString) => {
     return 'Error verifiying email address';
   }
 };
-
-module.exports = {
-  generatePasswordResetToken,
-  checkPasswordResetToken,
-  resetPassword,
-  verifyEmailAddress,
-}

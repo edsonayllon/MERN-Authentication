@@ -15,8 +15,8 @@ module.exports = (passport) => {
     passwordField : 'password'
   }, async (email, password, done) => {
     try {
-      let emailVerificationString = crypto.randomBytes(32).toString('base64');
-      let emailVerificationHash = await argon2.hash(emailVerificationString, {type: argon2.argon2id})
+      let emailVerificationToken = crypto.randomBytes(32).toString('base64');
+      let emailVerificationHash = await argon2.hash(emailVerificationToken, {type: argon2.argon2id})
       let user = await new User;
       user.local.email = email;
       user.local.password = password;
@@ -30,7 +30,7 @@ module.exports = (passport) => {
         return done(null, user, {
           message : 'Account created, check your email to activate your account',
           emailAddress: user.local.email,
-          emailVerificationString: emailVerificationString
+          emailVerificationToken: emailVerificationToken
         });
       })
     } catch (err) {
@@ -38,7 +38,6 @@ module.exports = (passport) => {
       return done(null, false, { message : err });
     }
   }));
-
 
   passport.use('local-login', new LocalStrategy({
     usernameField : 'email',

@@ -7,8 +7,8 @@ import { Router, Link, Route } from './';
 import {
   Home,
   Secret,
-  SignIn,
-  SignUp,
+  Login,
+  Register,
   ForgotPassword,
   ResetPassword
 } from '../screens';
@@ -36,12 +36,12 @@ export default class MainRouter extends Component {
       },
       {
         path: '/login',
-        component: SignIn,
+        component: Login,
         title: 'Sign In'
       },
       {
         path: '/register',
-        component: SignUp,
+        component: Register,
         title: 'Sign Up'
       },
       {
