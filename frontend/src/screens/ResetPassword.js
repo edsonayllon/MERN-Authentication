@@ -10,7 +10,7 @@ import styles from '../stylesheet';
 export default class ForgotPassword extends Component {
   state = {
     password: '',
-    confirmPassword: '',
+    passwordConfirm: '',
     message: '',
     tokenMessage: '',
     loading: false,
@@ -21,29 +21,29 @@ export default class ForgotPassword extends Component {
   onInputChange = (key, value) => {
     this.setState(prevState => ({
       ...prevState,
-      [key]: value
+      [key]: value,
     }))
   }
 
   async componentDidMount() {
     try {
-      const token = await this.props.match.params.token; //reads the url
-      const user = await this.props.match.params.user;
+      let token = await this.props.match.params.token; //reads the url
+      let user = await this.props.match.params.user;
       const res = await fetch(
         `http://localhost:4000/auth/password-reset?user=${user}&token=${token}`, {
         method: 'GET',
       });
       const json = await res.json();
       const status = await res.status;
-      if (json.verfied) {
+      if (!json.verfied) {
         this.setState({
           tokenMessage: json.message,
-          expiredToken: false
+          expiredToken: true
         })
       } else {
         this.setState({
           tokenMessage: json.message,
-          expiredToken: true
+          expiredToken: false
         })
       }
     } catch (err) {
@@ -51,22 +51,30 @@ export default class ForgotPassword extends Component {
     }
   }
 
-  sendEmail = async (e) => {
+  resetPassword = async (e) => {
     e.preventDefault();
     this.setState({
       loading: true,
       message: ''
     })
+    let token = await this.props.match.params.token; //reads the url
+    let user = await this.props.match.params.user;
+
     if (!(this.state.password === this.state.passwordConfirm)) {
       this.setState({
         message: 'Passwords must match',
-        loading: false
+        loading: false,
+        serverSuccess: false
       });
     } else {
       try {
-        const res = fetch('http://localhost:4000/api/forgot-password', {
+        const res = await fetch('http://localhost:4000/auth/password-reset', {
           method: 'POST',
-          body: JSON.stringify({ email: this.state.password }),
+          body: JSON.stringify({
+            email: user,
+            password: this.state.password,
+            token: token,
+          }),
           headers: {
             'Content-Type': 'application/json',
           }
@@ -75,18 +83,20 @@ export default class ForgotPassword extends Component {
         const status = await res.status;
         await json;
         this.setState({ loading: false });
-
+        console.log(json);
         switch (status) {
           case 200:
             this.setState({
               message: json.message,
-              serverSuccess: true
+              serverSuccess: true,
+              loading: false,
             });
             break;
           case 403:
             this.setState({
               message: json.message,
-              serverSuccess: false
+              serverSuccess: false,
+              loading: false,
             });
             break;
           default:
@@ -109,27 +119,29 @@ export default class ForgotPassword extends Component {
         </Text>
         <Text style = {{fontWeight: 'bold'}}>Reset your password</Text>
         <Input
-          placeholder="New password"
+          placeholder="Password"
           type='password'
           name='password'
           onChangeText={this.onInputChange}
           value={this.state.password}
+          secureTextEntry
         />
         <Input
-          placeholder="Re-enter new password"
+          placeholder="Confirm Password"
           type='passwordConfirm'
           name='passwordConfirm'
           onChangeText={this.onInputChange}
           value={this.state.passwordConfirm}
+          secureTextEntry
         />
         <Button
           isLoading = {this.state.loading}
           title='Update Password'
-          onPress={this.sendEmail}
+          onPress= { this.resetPassword }
         />
         <Text style={this.state.serverSuccess
         ? styles.loginSuccess : styles.loginFailure} >
-          {this.state.message}
+          { this.state.message }
         </Text>
         <Text>OR</Text>
         <Link to="/login">

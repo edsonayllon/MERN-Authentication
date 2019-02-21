@@ -12,7 +12,7 @@ export default function withAuth(ComponentToProtect) {
 
     componentDidMount() {
       this.retrieveItem("JWT_TOKEN").then((token) => {
-        fetch("http://localhost:4000/api/checkToken", {
+        fetch("http://localhost:4000/auth/checkToken", {
           method: "GET",
           headers: {
             "authorization": 'Bearer ' + token

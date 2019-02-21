@@ -5,25 +5,46 @@ const mailService = require('../../services/mail.service');
 const userService = require('../../services/user.service');
 
 router.get('/', async (req, res) => {
-  console.log(req.query)
-  console.log(req.query.token);
-  console.log(req.query.user);
   const result = await userService.checkPasswordResetToken(
     decodeURIComponent(req.query.token),
     req.query.user
-  )
+  );
   console.log(result);
-  if (!(result.verified)){
+  if (!(result.verified)) {
     res.json({
       message: result.info,
       verified: result.verifed
     });
   }
-  if (result.verified) {
-    res.render('new-password', { email: req.query.email, code: req.query.code })
-  } else {
-    res.render('reset-password', { message: result.info })
+})
+
+router.post('/', async (req, res) => {
+  try {
+    const result = await userService.checkPasswordResetToken(
+      decodeURIComponent(req.body.token),
+      req.body.email
+    );
+    if (result.verified) {
+      const resetUser = await userService.resetPassword(
+        req.body.email,
+        req.body.password
+      );
+      if (resetUser) {
+        res.status(200).json({
+          message: "Your password has been reset"
+        });
+      } else  {
+        res.status(403).json({
+          message: 'Error resetting user password'
+        });
+      }
+    }
+  } catch (err) {
+    res.status(403).json({
+      message: 'Error resetting user password'
+    });
   }
+
 })
 
 module.exports = router;
