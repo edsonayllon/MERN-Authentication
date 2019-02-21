@@ -34,7 +34,6 @@ export default class ForgotPassword extends Component {
         method: 'GET',
       });
       const json = await res.json();
-      const status = await res.status;
       if (!json.verfied) {
         this.setState({
           tokenMessage: json.message,
