@@ -104,6 +104,8 @@ Currently, the app can create a new user with an email and password, redirect th
 
 1. Clone the project.
 
+This project requires Node.js to be installed on your system.
+
 2. Install dependencies in both `./frontend` and `./backend`
 
 ```
@@ -136,13 +138,13 @@ You must run the backend first. The backend requires MongoD to be running first.
 
 In `./backend`:
 
-Begin MongoD.
+1. Begin MongoD.
 
 ```
 mongod
 ```
 
-Then run the server
+2. Then run the server
 
 ```
 npm run dev || yarn dev || npm run start || yarn start
