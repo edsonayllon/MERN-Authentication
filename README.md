@@ -102,7 +102,9 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 3.1 Installing
 
-Install dependencies in both `./frontend` and `./backend`
+1. Clone the project.
+
+2. Install dependencies in both `./frontend` and `./backend`
 
 ```
 npm install || yarn
@@ -110,7 +112,7 @@ npm install || yarn
 
 Authentication requires MongoDB to be installed on your system. MongoDB can be installed with [HomeBrew on Mac](https://treehouse.github.io/installation-guides/mac/mongo-mac.html)
 
-In `./backend` create a new file `variables.env`.
+3. In `./backend` create a new file `variables.env`.
 
 Add a secret key to `variables.env`.
 
