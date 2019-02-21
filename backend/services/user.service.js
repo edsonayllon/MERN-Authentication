@@ -12,7 +12,7 @@ const generatePasswordResetToken = async (email) => {
       let hash = await argon2.hash(token, { type: argon2.argon2id })
       user.local.passwordResetHash = hash;
       user.local.passwordResetExpiry = new Date().valueOf() + (1000 * 60 * 60) // 60 minutes
-      user.save();
+      await user.save()
       return token;
     }
   } catch (err) {
@@ -24,20 +24,20 @@ const generatePasswordResetToken = async (email) => {
 const checkPasswordResetToken = async (token, email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
-    if (user) {
-      if (user.passwordResetExpiry > new Date().valueOf()) {
-        const verified = await argon2.verify(user.passwordResetHash, token)
-        let info = verified
-          ? 'Correct password reset token'
-          : 'Incorrect password reset token'
-        return ({verified, info})
-      } else {
-        console.log('expired');
-        return ({
-          verified: false,
-          info: 'Your reset token has expired. Please request another'
-        })
-      }
+    console.log(user.local.passwordResetExpiry)
+    if (user.local.passwordResetExpiry > new Date().valueOf()) {
+      console.log('token not expired')
+      const verified = await argon2.verify(user.passwordResetHash, token)
+      let info = verified
+        ? 'Valid password reset token'
+        : 'Invalid password reset token'
+      return ({ verified, info })
+    } else {
+      console.log('Password reset token expired');
+      return ({
+        verified: false,
+        info: 'Your reset token has expired. Please request another'
+      })
     }
   } catch (err) {
     console.log('error from catch statement');
