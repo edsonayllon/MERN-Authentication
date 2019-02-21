@@ -63,7 +63,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 **Status**: *In Progress*
 
-- [ ] Fully functioning reset email with Mongodb
+- [ ] Fully functioning password reset using email with Mongodb
   - [x] Create a forgot password form in the frontend
   - [x] Add ability to email users who sign up
   - [x] Email users who submit the forgot password form
