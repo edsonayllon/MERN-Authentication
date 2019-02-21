@@ -1,6 +1,8 @@
 const config = require('../config');
 const secret = config.SECRET_KEY;
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const argon2 = require('argon2');
 const User = require('../models/user.model');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
@@ -13,13 +15,27 @@ module.exports = (passport) => {
     passwordField : 'password'
   }, async (email, password, done) => {
     try {
-      const user = await User.create({
-        "local.email": email,
-        "local.password": password
-      });
-      return done(null, user, { message : 'Account successfully created' });
-    } catch (error) {
-      return done(null, false, { message : 'User already exists' });
+      let emailVerificationString = crypto.randomBytes(32).toString('base64');
+      let emailVerificationHash = await argon2.hash(emailVerificationString, {type: argon2.argon2id})
+      let user = await new User;
+      user.local.email = email;
+      user.local.password = password;
+      user.local.emailVerificationHash = emailVerificationHash;
+      user.local.emailVerificationExpiry = new Date().valueOf() + (1000 * 60 * 60) // Expires in 1 hour. Make it a shorter time for production app.
+      user.save( (err) => {
+        if (err) {
+          console.log('error saving user')
+          return done(null, false, { message : 'Error creating account' });
+        }
+        return done(null, user, {
+          message : 'Account created, check your email to activate your account',
+          emailAddress: user.local.email,
+          emailVerificationString: emailVerificationString
+        });
+      })
+    } catch (err) {
+      console.log(err);
+      return done(null, false, { message : err });
     }
   }));
 

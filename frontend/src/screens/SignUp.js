@@ -62,7 +62,6 @@ export default class SignUp extends Component {
               loginSuccess: true,
               loading: false
             });
-            this.props.history.push('/login');
             break;
           case 400:
             this.setState({

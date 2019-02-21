@@ -64,31 +64,31 @@ const resetPassword = async (email, password) => {
 const verifyEmailAddress = async (email, emailVerificationString) => {
   try {
     const user = await User.findOne({'local.email': email});
-      if (user.emailVerificationExpiry > new Date().valueOf()) {
-        try {
-          const verified = await argon2.verify(
-            user.local.emailVerificationHash,
-            emailVerificationString
-          );
-          console.log('verified fro argon2');
-          console.log(verified);
-          if (verified) {
-            user.local.emailVerificationExpiry = null;
-            user.local.emailVerificationHash = null;
-            user.local.verified = true;
-            user.save();
-            return verified
-          } else {
-            return 'error verifying email address'
-          }
-        } catch (error) {
-          console.log('error verifying email address');
-          console.log(error);
-          return error
+    if (user.emailVerificationExpiry > new Date().valueOf()) {
+      try {
+        const verified = await argon2.verify(
+          user.local.emailVerificationHash,
+          emailVerificationString
+        );
+        console.log('verified fro argon2');
+        console.log(verified);
+        if (verified) {
+          user.local.emailVerificationExpiry = null;
+          user.local.emailVerificationHash = null;
+          user.local.verified = true;
+          user.save();
+          return verified
+        } else {
+          return 'Error verifying email address'
         }
-      } else {
-        return 'Verification token has expired.';
+      } catch (error) {
+        console.log('error verifying email address');
+        console.log(error);
+        return error
       }
+    } else {
+      return 'Verification token has expired.';
+    }
   } catch (err) {
     console.log(err);
     return 'Error verifiying email address';

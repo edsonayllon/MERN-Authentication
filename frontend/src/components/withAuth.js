@@ -10,26 +10,28 @@ export default function withAuth(ComponentToProtect) {
       redirect: false,
     }
 
-    componentDidMount() {
-      this.retrieveItem("JWT_TOKEN").then((token) => {
-        fetch("http://localhost:4000/auth/checkToken", {
+    async componentDidMount() {
+      try {
+        const token = await this.retrieveItem("JWT_TOKEN");
+        const res = await fetch("http://localhost:4000/auth/checkToken", {
           method: "GET",
           headers: {
             "authorization": 'Bearer ' + token
           }
-        }).then(res => {
-          if (res.status === 200) {
+        });
+        const status = await res.status;
+        switch (status) {
+          case 200:
             this.setState({ loading: false });
-          } else {
+            break;
+          default:
             const error = new Error(res.error);
             throw error;
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          this.setState({ loading: false, redirect: true });
-        });
-      })
+        }
+      } catch (err) {
+        console.error(err);
+        this.setState({ loading: false, redirect: true });
+      }
     }
 
     async retrieveItem(key) {
