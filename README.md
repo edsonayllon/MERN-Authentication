@@ -59,11 +59,11 @@ Currently, the app can create a new user with an email and password, redirect th
     - [x] Confirm matching passwords -- handled by client
     - [x] Respond if user already exists
 
-### 2.3 Add email verification and password reset
+### 2.3 Add password reset through email
 
-**Status**: *In Progress*
+**Status**: _Complete_
 
-- [ ] Fully functioning password reset using email with Mongodb
+- [x] Fully functioning password reset using email with Mongodb
   - [x] Create a forgot password form in the frontend
   - [x] Add ability to email users who sign up
   - [x] Email users who submit the forgot password form
@@ -73,14 +73,19 @@ Currently, the app can create a new user with an email and password, redirect th
   - [x] Send the password reset token from the Client to the Server
   - [x] Check to see if password reset token expired in the Server using Mongodb
   - [x] If token expired, send expiration notice to the client, have client display message
-  - [ ]
-- [ ] Fully functioning email verification with Mongodb
-- [ ] Other Updates
+  - [x] If token is not expired, and matching password provided in form, reset the password
+- [x] Other Updates
   - [x] Changed hashing function for passwords from bcrypt to Argon2 https://password-hashing.net/
   - [x] Updated frontend promises to Async functions
-  - [ ] Made user services and mailing services to hold functions externally
+  - [x] Made user services and mailing services to hold functions externally
 
-### 2.4 Add Alternative Logins (social)
+### 2.4 Add email verification
+
+**Status**: *Not started*
+
+- [ ] Fully functioning email verification with Mongodb
+
+### 2.5 Add Alternative Logins (social)
 
 **Status**: *Not started*
 
