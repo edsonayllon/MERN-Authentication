@@ -69,11 +69,13 @@ Currently, the app can create a new user with an email and password, redirect th
   - [x] Email users who submit the forgot password form
   - [x] Create a reset password token, add it to the Email
   - [x] Have email push to a URL on the frontend containing the token
-  - [x] Read the token in the URL, save as a variable
+  - [x] Read the token in the URL, save as a variable in the Client
+  - [ ] Receive the email reset token in the server
 - [ ] Fully functioning email verification with Mongodb
 - [ ] Other Updates
   - [x] Changed hashing function for passwords from bcrypt to Argon2 https://password-hashing.net/
   - [x] Updated frontend promises to Async functions
+  - [ ] Made user services and mailing services to hold functions externally
 
 ### 2.4 Add Alternative Logins (social)
 

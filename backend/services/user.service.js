@@ -11,7 +11,7 @@ const generatePasswordResetToken = async (email) => {
       let token = await crypto.randomBytes(32).toString('base64')
       let hash = await argon2.hash(token, { type: argon2.argon2id })
       user.local.passwordResetHash = hash;
-      user.local.passwordResetExpiry = new Date().valueOf() + (1000 * 60 * 5) // 5 minutes
+      user.local.passwordResetExpiry = new Date().valueOf() + (1000 * 60 * 60) // 60 minutes
       user.save();
       return token;
     }
@@ -24,10 +24,7 @@ const generatePasswordResetToken = async (email) => {
 const checkPasswordResetToken = async (token, email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
-    if (!user) {
-      console.log('error from if statement');
-      throw new Error('error getting user');
-    } else {
+    if (user) {
       if (user.passwordResetExpiry > new Date().valueOf()) {
         const verified = await argon2.verify(user.passwordResetHash, token)
         let info = verified
@@ -69,8 +66,43 @@ const resetPassword = async (email, password) => {
   }
 }
 
+const verifyEmailAddress = async (email, emailVerificationString) => {
+  try {
+    const user = await User.findOne({email: email});
+      if (user.emailVerificationExpiry > new Date().valueOf()) {
+        try {
+          const verified = await argon2.verify(
+            user.emailVerificationHash,
+            emailVerificationString
+          );
+          console.log('verified fro argon2');
+          console.log(verified);
+          if (verified) {
+            user.emailVerificationExpiry = null;
+            user.emailVerificationHash = null;
+            user.verified = true;
+            user.save();
+            return verified
+          } else {
+            return 'error verifying email address'
+          }
+        } catch (error) {
+          console.log('error verifying email address');
+          console.log(error);
+          return error
+        }
+      } else {
+        return 'Verification token has expired.';
+      }
+  } catch (err) {
+    console.log(err);
+    return 'Error verifiying email address';
+  }
+};
+
 module.exports = {
   generatePasswordResetToken,
   checkPasswordResetToken,
   resetPassword,
+  verifyEmailAddress,
 }

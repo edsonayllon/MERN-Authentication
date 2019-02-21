@@ -10,7 +10,7 @@ import {
   SignIn,
   SignUp,
   ForgotPassword,
-  ResetPassword 
+  ResetPassword
 } from '../screens';
 import withAuth from '../components/withAuth';
 
@@ -50,7 +50,7 @@ export default class MainRouter extends Component {
         title: 'Forgot Password'
       },
       {
-        path: '/reset/:token',
+        path: '/reset/:user/:token',
         component: ResetPassword,
         title: 'Reset Password'
       }

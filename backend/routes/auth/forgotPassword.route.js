@@ -26,7 +26,6 @@ router.post('/', async (req, res) => {
     });
   }
   console.log(req.body.email);
-
 });
 
 module.exports = router;

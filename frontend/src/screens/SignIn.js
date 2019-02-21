@@ -41,7 +41,7 @@ export default class SignIn extends Component {
     e.preventDefault();
     this.setState({loading: true});
     try {
-      const res = await fetch('http://localhost:4000/api/authenticate', {
+      const res = await fetch('http://localhost:4000/auth/authenticate', {
         method: 'POST',
         body: JSON.stringify(this.state.user),
         headers: {

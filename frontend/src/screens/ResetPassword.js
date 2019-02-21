@@ -12,8 +12,10 @@ export default class ForgotPassword extends Component {
     password: '',
     confirmPassword: '',
     message: '',
+    tokenMessage: '',
     loading: false,
     serverSuccess: false,
+    expiredToken: true,
   }
 
   onInputChange = (key, value) => {
@@ -25,15 +27,25 @@ export default class ForgotPassword extends Component {
 
   async componentDidMount() {
     try {
-      const resetToken = this.props.match.params.token; //reads the url
-      console.log(resetToken)
-      const res = await fetch('http://localhost:4000/password-reset', {
+      const token = await this.props.match.params.token; //reads the url
+      const user = await this.props.match.params.user;
+      const res = await fetch(
+        `http://localhost:4000/auth/password-reset?user=${user}&token=${token}`, {
         method: 'GET',
-        query: {
-          passwordResetToken: resetToken,
-        },
       });
-      console.log(res);
+      const json = await res.json();
+      const status = await res.status;
+      if (json.verfied) {
+        this.setState({
+          tokenMessage: json.message,
+          expiredToken: false
+        })
+      } else {
+        this.setState({
+          tokenMessage: json.message,
+          expiredToken: true
+        })
+      }
     } catch (err) {
       console.log(err)
     }
@@ -70,11 +82,13 @@ export default class ForgotPassword extends Component {
               message: json.message,
               serverSuccess: true
             });
+            break;
           case 403:
             this.setState({
               message: json.message,
               serverSuccess: false
             });
+            break;
           default:
             const error = new Error(res.error);
             throw error;
@@ -89,6 +103,10 @@ export default class ForgotPassword extends Component {
     console.log(this.state)
     return (
       <View>
+        <Text style={this.state.expiredToken
+        ? styles.loginFailure : styles.loginSuccess} >
+          {this.state.tokenMessage}
+        </Text>
         <Text style = {{fontWeight: 'bold'}}>Reset your password</Text>
         <Input
           placeholder="New password"

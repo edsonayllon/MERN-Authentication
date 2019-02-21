@@ -65,13 +65,14 @@ app.use('/api/secret',
   passport.authenticate('jwt', { session : false }),
   secretRouter
 );
-app.use('/api/register', registerRouter);
-app.use('/api/authenticate', authenticateRouter);
-app.use('/api/forgot-password', forgotPasswordRouter);
-app.use('/api/checkToken',
+app.use('/auth/register', registerRouter);
+app.use('/auth/authenticate', authenticateRouter);
+app.use('/auth/forgot-password', forgotPasswordRouter);
+app.use('/auth/checkToken',
   passport.authenticate('jwt', { session : false }),
   checkTokenRouter
 );
+app.use('/auth/password-reset', resetPasswordRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

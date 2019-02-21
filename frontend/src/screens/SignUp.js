@@ -42,7 +42,7 @@ export default class SignUp extends Component {
           loading: true,
           message: '',
         });
-        const res = await fetch('http://localhost:4000/api/register', {
+        const res = await fetch('http://localhost:4000/auth/register', {
           method: 'POST',
           body: JSON.stringify(this.state.user),
           headers: {
