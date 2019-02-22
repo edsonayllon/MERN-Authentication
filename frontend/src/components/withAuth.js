@@ -16,7 +16,7 @@ export default function withAuth(ComponentToProtect) {
         const res = await fetch("http://localhost:4000/auth/checkToken", {
           method: "GET",
           headers: {
-            "authorization": 'Bearer ' + token
+            "Authorization": 'Bearer ' + token
           }
         });
         const status = await res.status;
