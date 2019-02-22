@@ -20,24 +20,6 @@ module.exports.generatePasswordResetToken = async (email) => {
   }
 }
 
-module.exports.generateEmailVerifyToken = async (email) => {
-  try {
-    const user = await User.findOne({ 'local.email': email });
-    if (!user) {
-      throw new Error('error getting user')
-    } else {
-      let token = await crypto.randomBytes(32).toString('base64')
-      let hash = await argon2.hash(token, { type: argon2.argon2id })
-      user.local.emailVerificationHash = hash;
-      user.local.emailVerificationExpiry = new Date().valueOf() + (1000 * 60 * 60) // 60 minutes
-      await user.save()
-      return token;
-    }
-  } catch (err) {
-    throw new Error('error getting user')
-  }
-}
-
 module.exports.checkPasswordResetToken = async (token, email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
@@ -57,7 +39,6 @@ module.exports.checkPasswordResetToken = async (token, email) => {
     console.log('error from catch statement');
     throw new Error('error getting user');
   }
-
 }
 
 module.exports.resetPassword = async (email, password) => {
@@ -78,36 +59,51 @@ module.exports.resetPassword = async (email, password) => {
   }
 }
 
-module.exports.verifyEmailAddress = async (email, emailVerificationToken) => {
+module.exports.verifyEmailAddress = async (token, email) => {
   try {
     const user = await User.findOne({'local.email': email});
-    if (user.local.emailVerificationExpiry > new Date().valueOf()) {
-      try {
-        const verified = await argon2.verify(
-          user.local.emailVerificationHash,
-          emailVerificationToken
-        );
-        console.log('verified fro argon2');
-        console.log(verified);
-        if (verified) {
-          user.local.emailVerificationExpiry = null;
-          user.local.emailVerificationHash = null;
-          user.local.verified = true;
-          user.save();
-          return verified
-        } else {
-          return 'Error verifying email address'
-        }
-      } catch (error) {
-        console.log('error verifying email address');
-        console.log(error);
-        return error
+    // If verfication time has expired, the user will automatically be
+    // deleted from the database within one minute of expiration time
+    if (user.local.verified === true) {
+      return {
+        verified: true,
+        message: 'E-mail already verified'
       }
-    } else {
-      return 'Verification token has expired.';
+    }
+    try {
+      const verified = await argon2.verify(
+        user.local.emailVerificationHash,
+        token
+      );
+      console.log('verified fro argon2');
+      console.log(verified);
+      if (verified) {
+        user.local.emailVerificationExpiry = undefined;
+        user.local.emailVerificationHash = undefined;
+        user.local.verified = true;
+        user.save();
+        return {
+          verified: true,
+          message: 'E-mail successfully verified'
+        }
+      } else {
+        return {
+          verified: false,
+          message: 'Invalid email verification token provided'
+        }
+      }
+    } catch (err) {
+      console.log(err)
+      return {
+        verified: false,
+        message: 'Verification window has expired, please register a new account'
+      }
     }
   } catch (err) {
     console.log(err);
-    return 'Error verifiying email address';
+    return {
+      verified: false,
+      message: 'Verification window has expired, please register a new account'
+    };
   }
 };

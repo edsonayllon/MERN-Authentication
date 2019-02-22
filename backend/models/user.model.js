@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     passwordResetExpiry: { type: Number },
     verified: { type: Boolean, default: false },
     emailVerificationHash: { type: String },
-    emailVerificationExpiry: { type: Number },
+    emailVerificationExpiry: { type: Date, default: Date.now, expires: 3600 },
   }
 });
 

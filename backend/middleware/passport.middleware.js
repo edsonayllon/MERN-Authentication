@@ -15,13 +15,12 @@ module.exports = (passport) => {
     passwordField : 'password'
   }, async (email, password, done) => {
     try {
-      let emailVerificationToken = crypto.randomBytes(32).toString('base64');
-      let emailVerificationHash = await argon2.hash(emailVerificationToken, {type: argon2.argon2id})
+      let token = crypto.randomBytes(32).toString('base64');
+      let emailVerificationHash = await argon2.hash(token, {type: argon2.argon2id})
       let user = await new User;
       user.local.email = email;
       user.local.password = password;
       user.local.emailVerificationHash = emailVerificationHash;
-      user.local.emailVerificationExpiry = new Date().valueOf() + (1000 * 60 * 60) // Expires in 1 hour. Make it a shorter time for production app.
       user.save( (err) => {
         if (err) {
           console.log('error saving user')
@@ -30,7 +29,7 @@ module.exports = (passport) => {
         return done(null, user, {
           message : 'Account created, check your email to activate your account',
           emailAddress: user.local.email,
-          emailVerificationToken: emailVerificationToken
+          emailVerificationToken: token
         });
       })
     } catch (err) {

@@ -12,6 +12,7 @@ const registerRouter = require('./routes/auth/register.route');
 const authenticateRouter = require('./routes/auth/authenticate.route');
 const forgotPasswordRouter = require('./routes/auth/forgotPassword.route');
 const resetPasswordRouter = require('./routes/auth/resetPassword.route');
+const verifyEmailRouter = require('./routes/auth/verifyEmail.route');
 
 // api routes
 const indexRouter = require('./routes/index.route');
@@ -73,6 +74,7 @@ app.use('/auth/checkToken',
   checkTokenRouter
 );
 app.use('/auth/password-reset', resetPasswordRouter);
+app.use('/auth/verify-email', verifyEmailRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
