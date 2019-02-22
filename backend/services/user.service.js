@@ -50,6 +50,8 @@ module.exports.resetPassword = async (email, password) => {
     } else {
       let passHash = await argon2.hash(password, {type: argon2.argon2id});
       user.local.password = passHash;
+      user.local.passwordResetHash = undefined;
+      user.local.passwordResetExpiry = undefined;
       user.save()
       return true;
     }
@@ -79,7 +81,7 @@ module.exports.verifyEmailAddress = async (token, email) => {
       console.log('verified fro argon2');
       console.log(verified);
       if (verified) {
-        user.local.emailVerificationExpiry = undefined;
+        user.local.emailVerificationExpiry = null;
         user.local.emailVerificationHash = undefined;
         user.local.verified = true;
         user.save();
@@ -108,10 +110,3 @@ module.exports.verifyEmailAddress = async (token, email) => {
     };
   }
 };
-
-
-module.exports.isValidPassword = async function(email, password){
-  const user = await User.findOne({'local.email': email})
-  const verify = await argon2.verify(user.local.password, password);
-  return verify;
-}

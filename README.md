@@ -81,7 +81,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 2.4 Add email verification
 
-**Status**: *Not started*
+**Status**: _Complete_
 
 - [x] Fully functioning email verification with MongoDB
   - [x] Don't allow user login without account verification

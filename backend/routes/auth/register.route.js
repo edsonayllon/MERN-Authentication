@@ -7,12 +7,8 @@ const userService = require('../../services/user.service');
 router.post('/', async (req, res, next) => {
   passport.authenticate('local-register', { session : false },
     async (err, user, info) => {
-      console.log(info);
-      console.log(user);
-      console.log(err);
       try {
         if (user) {
-          console.log('this code is running')
           let token = info.emailVerificationToken;
           await mailService.sendEmailVerification(req.body.email, token);
           return res.status(200).json({

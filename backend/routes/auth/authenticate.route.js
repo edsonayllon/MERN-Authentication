@@ -4,7 +4,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 const secret = config.AUTH_ECRET_KEY;
-const tokenExpiration = "1m";
+const tokenExpiration = "1m"; // set how long user will be logged in
 
 router.post('/', function (req, res, next) {
   passport.authenticate('local-login', async (err, user, info) => {
@@ -17,12 +17,9 @@ router.post('/', function (req, res, next) {
       req.login(user, { session : false }, async (error) => {
         if( error ) return next(error)
         console.log(error);
-        console.log(user.local.verified);
         if (user.local.verified === true) {
-          console.log("token code was run")
           const token = jwt.sign({
-            _id : user._id,
-            email : user.local.email
+            _id : user._id
           }, secret, { expiresIn: tokenExpiration });
           return res.status(200).json({
             message: 'Login successful',
