@@ -83,16 +83,20 @@ Currently, the app can create a new user with an email and password, redirect th
 
 **Status**: *Not started*
 
-- [ ] Fully functioning email verification with MongoDB
+- [x] Fully functioning email verification with MongoDB
   - [x] Don't allow user login without account verification
     - [x] Have verification field in User schema under local, default as unverified
     - [x] Do not create JsonWebToken for user if account is not verified
     - [x] If not verified, tell user to verify their account through client
-  - [ ] Make a process for user to verify their account
+  - [x] Make a process for user to verify their account
     - [x] Added token verification function for email verification
     - [x] Added token creation for email verification
-    - [ ] Send verification token in email to account
-    - [ ] Have process to activate account again past expiration
+    - [x] Send verification token in email to account
+    - [x] Read verification token in the frontend opened from email
+    - [x] Send verification token to the server
+    - [x] Validate verification token, if valid, activate account, allow login 
+    - [x] If account not verified in time, account will be deleted, preventing unauthorized users creating accounts for email addresses they do not own, also, cleaning the database
+  - [x] If account is verified, allow login, and access to restricted content
 
 ### 2.5 Add Alternative Logins (social)
 
