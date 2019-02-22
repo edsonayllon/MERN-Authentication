@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
-const secret = config.SECRET_KEY;
+const secret = config.AUTH_ECRET_KEY;
 const tokenExpiration = "1m";
 
 router.post('/', function (req, res, next) {

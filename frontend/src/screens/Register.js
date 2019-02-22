@@ -35,7 +35,7 @@ export default class Register extends Component {
     } else if (this.state.user.password === '') {
       this.setState({ message: 'Must enter a password' });
     } else if (this.state.user.email === '') {
-      this.setState({ message: 'Must enter a username' });
+      this.setState({ message: 'Must enter an E-mail' });
     } else {
       try {
         this.setState({

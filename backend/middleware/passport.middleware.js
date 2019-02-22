@@ -1,5 +1,5 @@
 const config = require('../config');
-const secret = config.SECRET_KEY;
+const secret = config.AUTH_SECRET_KEY;
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const argon2 = require('argon2');

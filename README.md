@@ -118,6 +118,12 @@ Currently, the app can create a new user with an email and password, redirect th
 - [ ] Make a user profile page, linked in restricted section
 - [ ] Allow users to change their passwords in that page with email confirmation
 
+### 2.7 Other features
+
+**Status**: *Not started*
+
+- [ ] Add rate limiting (login, registration, api, to slow brute force attacks on passwords)
+- [ ] Deactivate account with too many failed login attempts
 
 ## 3 | Getting Started
 
@@ -140,24 +146,20 @@ This step is optional for this app if not running for production.
 AUTH_SECRET_KEY = "Secret Key"
 ```
 
-And add your mongodb uri with your credentials in `variables.env`: This step is
-optional for this app in not running for production.
+And add your mongodb uri with your credentials in `variables.env`: This step is optional for this app if not running for production.
 
 ```
 MONGO_URI = "Mongo uri with credentials"
 ```
 
-And add credentials for a mailing client you will use to send your emails.
-Integrated services include Zoho, Gmail, and Outlook. This app uses nodemailer
-to send emails. This step is required if you would like to enable password
-resets.
+And add credentials for a mailing client you will use to send your emails. Integrated services include Zoho, Gmail, and Outlook. This app uses nodemailer to send emails. This step is required for activating new user accounts and reseting passwords through this app.
 
 Inside `./backend/variables.env`.
 
 ```
 MAIL_USER = "your email"
 MAIL_PASS = "your email password"
-APP_NAME = "your app name"
+APP_NAME = "your app name or company name"
 ```
 
 ### 3.2 Running
