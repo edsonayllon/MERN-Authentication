@@ -7,21 +7,16 @@ import { Router, Link, Route } from './';
 import {
   Home,
   Secret,
-  SignIn,
-  SignUp,
+  Login,
+  Register,
   ForgotPassword,
-  ResetPassword
+  ResetPassword,
+  ConfirmEmail
 } from '../screens';
 import withAuth from '../components/withAuth';
 
 
 export default class MainRouter extends Component {
-  state = {}
-
-  onNewJWT = (token) => {
-    this.props.newJWT(token);
-  }
-
   render() {
     const routesInfo = [
       {
@@ -36,12 +31,12 @@ export default class MainRouter extends Component {
       },
       {
         path: '/login',
-        component: SignIn,
+        component: Login,
         title: 'Sign In'
       },
       {
         path: '/register',
-        component: SignUp,
+        component: Register,
         title: 'Sign Up'
       },
       {
@@ -53,6 +48,11 @@ export default class MainRouter extends Component {
         path: '/reset/:user/:token',
         component: ResetPassword,
         title: 'Reset Password'
+      },
+      {
+        path: '/verify/:user/:token',
+        component: ConfirmEmail,
+        title: 'Email Verification'
       }
     ];
 
@@ -90,7 +90,6 @@ export default class MainRouter extends Component {
                 key: 'Register',
                 path: '/register'
               }
-
             ]}
             renderItem={({item}) => <Link to={item.path} >{item.key}</Link>}
           />

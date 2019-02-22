@@ -1,6 +1,8 @@
 const config = require('../config');
 const secret = config.SECRET_KEY;
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const argon2 = require('argon2');
 const User = require('../models/user.model');
 const LocalStrategy = require('passport-local').Strategy;
 const JWTstrategy = require('passport-jwt').Strategy;
@@ -13,16 +15,29 @@ module.exports = (passport) => {
     passwordField : 'password'
   }, async (email, password, done) => {
     try {
-      const user = await User.create({
-        "local.email": email,
-        "local.password": password
-      });
-      return done(null, user, { message : 'Account successfully created' });
-    } catch (error) {
-      return done(null, false, { message : 'User already exists' });
+      let token = crypto.randomBytes(32).toString('base64');
+      let emailVerificationHash = await argon2.hash(token, {type: argon2.argon2id});
+      let passHash = await argon2.hash(password, {type: argon2.argon2id});
+      let user = await new User;
+      user.local.email = email;
+      user.local.password = passHash;
+      user.local.emailVerificationHash = emailVerificationHash;
+      user.save( (err) => {
+        if (err) {
+          console.log('error saving user')
+          return done(null, false, { message : 'Error creating account' });
+        }
+        return done(null, user, {
+          message : 'Account created, check your email to activate your account',
+          emailAddress: user.local.email,
+          emailVerificationToken: token
+        });
+      })
+    } catch (err) {
+      console.log(err);
+      return done(null, false, { message : err });
     }
   }));
-
 
   passport.use('local-login', new LocalStrategy({
     usernameField : 'email',
@@ -36,7 +51,6 @@ module.exports = (passport) => {
         return done(null, false, { message : 'Account not found. Check username or register an account'});
       }
       //Validate password and make sure it matches with the corresponding hash stored in the database
-      //If the passwords match, it returns a value of true.
       const validate = await user.isValidPassword(password);
       if( !validate ){
         return done(null, false, { message : 'Incorrect Password'});

@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const argon2 = require('argon2');
 const User = require('../models/user.model');
 
-const generatePasswordResetToken = async (email) => {
+module.exports.generatePasswordResetToken = async (email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
     if (!user) {
@@ -20,8 +20,7 @@ const generatePasswordResetToken = async (email) => {
   }
 }
 
-
-const checkPasswordResetToken = async (token, email) => {
+module.exports.checkPasswordResetToken = async (token, email) => {
   try {
     const user = await User.findOne({ 'local.email': email });
     if (user.local.passwordResetExpiry > new Date().valueOf()) {
@@ -40,17 +39,17 @@ const checkPasswordResetToken = async (token, email) => {
     console.log('error from catch statement');
     throw new Error('error getting user');
   }
-
 }
 
-const resetPassword = async (email, password) => {
+module.exports.resetPassword = async (email, password) => {
   try {
     const user = await User.findOne({ 'local.email': email });
     if (!user) {
       throw new Error('error getting user')
       return false;
     } else {
-      user.local.password = password;
+      let passHash = await argon2.hash(password, {type: argon2.argon2id});
+      user.local.password = passHash;
       user.save()
       return true;
     }
@@ -61,43 +60,58 @@ const resetPassword = async (email, password) => {
   }
 }
 
-const verifyEmailAddress = async (email, emailVerificationString) => {
+module.exports.verifyEmailAddress = async (token, email) => {
   try {
     const user = await User.findOne({'local.email': email});
-      if (user.emailVerificationExpiry > new Date().valueOf()) {
-        try {
-          const verified = await argon2.verify(
-            user.local.emailVerificationHash,
-            emailVerificationString
-          );
-          console.log('verified fro argon2');
-          console.log(verified);
-          if (verified) {
-            user.local.emailVerificationExpiry = null;
-            user.local.emailVerificationHash = null;
-            user.local.verified = true;
-            user.save();
-            return verified
-          } else {
-            return 'error verifying email address'
-          }
-        } catch (error) {
-          console.log('error verifying email address');
-          console.log(error);
-          return error
+    // If verfication time has expired, the user will automatically be
+    // deleted from the database within one minute of expiration time
+    if (user.local.verified === true) {
+      return {
+        verified: true,
+        message: 'E-mail already verified'
+      }
+    }
+    try {
+      const verified = await argon2.verify(
+        user.local.emailVerificationHash,
+        token
+      );
+      console.log('verified fro argon2');
+      console.log(verified);
+      if (verified) {
+        user.local.emailVerificationExpiry = undefined;
+        user.local.emailVerificationHash = undefined;
+        user.local.verified = true;
+        user.save();
+        return {
+          verified: true,
+          message: 'E-mail successfully verified'
         }
       } else {
-        return 'Verification token has expired.';
+        return {
+          verified: false,
+          message: 'Invalid email verification token provided'
+        }
       }
+    } catch (err) {
+      console.log(err)
+      return {
+        verified: false,
+        message: 'Verification window has expired, please register a new account'
+      }
+    }
   } catch (err) {
     console.log(err);
-    return 'Error verifiying email address';
+    return {
+      verified: false,
+      message: 'Verification window has expired, please register a new account'
+    };
   }
 };
 
-module.exports = {
-  generatePasswordResetToken,
-  checkPasswordResetToken,
-  resetPassword,
-  verifyEmailAddress,
+
+module.exports.isValidPassword = async function(email, password){
+  const user = await User.findOne({'local.email': email})
+  const verify = await argon2.verify(user.local.password, password);
+  return verify;
 }

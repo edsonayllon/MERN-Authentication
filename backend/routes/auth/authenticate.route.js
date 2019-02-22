@@ -17,16 +17,25 @@ router.post('/', function (req, res, next) {
       req.login(user, { session : false }, async (error) => {
         if( error ) return next(error)
         console.log(error);
-        const token = jwt.sign({
-          _id : user._id,
-          email : user.local.email
-        }, secret, { expiresIn: tokenExpiration });
-        return res.json({
-          message: 'Login successful',
-          token: token
-        });
+        console.log(user.local.verified);
+        if (user.local.verified === true) {
+          console.log("token code was run")
+          const token = jwt.sign({
+            _id : user._id,
+            email : user.local.email
+          }, secret, { expiresIn: tokenExpiration });
+          return res.status(200).json({
+            message: 'Login successful',
+            token: token
+          });
+        } else {
+          res.status(401).json({
+            message: 'Please verify your email address',
+          });
+        }
       });
     } catch (error) {
+      console.log(error)
       return res.status(401).send(info);
       return next(error);
     }
