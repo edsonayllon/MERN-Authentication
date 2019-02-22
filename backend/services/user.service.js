@@ -48,7 +48,8 @@ module.exports.resetPassword = async (email, password) => {
       throw new Error('error getting user')
       return false;
     } else {
-      user.local.password = password;
+      let passHash = await argon2.hash(password, {type: argon2.argon2id});
+      user.local.password = passHash;
       user.save()
       return true;
     }
@@ -107,3 +108,10 @@ module.exports.verifyEmailAddress = async (token, email) => {
     };
   }
 };
+
+
+module.exports.isValidPassword = async function(email, password){
+  const user = await User.findOne({'local.email': email})
+  const verify = await argon2.verify(user.local.password, password);
+  return verify;
+}

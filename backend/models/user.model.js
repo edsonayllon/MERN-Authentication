@@ -10,15 +10,8 @@ const UserSchema = new mongoose.Schema({
     passwordResetExpiry: { type: Number },
     verified: { type: Boolean, default: false },
     emailVerificationHash: { type: String },
-    emailVerificationExpiry: { type: Date, default: Date.now, expires: 3600 },
+    emailVerificationExpiry: { type: Date, default: Date.now, expires: 90 },
   }
-});
-
-UserSchema.pre('save', async function(next){
-  const user = this;
-  const hash = await argon2.hash(this.local.password);
-  this.local.password = hash;
-  next();
 });
 
 UserSchema.methods.isValidPassword = async function(password){

@@ -17,7 +17,8 @@ router.post('/', function (req, res, next) {
       req.login(user, { session : false }, async (error) => {
         if( error ) return next(error)
         console.log(error);
-        if (user.local.verfied === true) {
+        console.log(user.local.verified);
+        if (user.local.verified === true) {
           console.log("token code was run")
           const token = jwt.sign({
             _id : user._id,

@@ -16,10 +16,11 @@ module.exports = (passport) => {
   }, async (email, password, done) => {
     try {
       let token = crypto.randomBytes(32).toString('base64');
-      let emailVerificationHash = await argon2.hash(token, {type: argon2.argon2id})
+      let emailVerificationHash = await argon2.hash(token, {type: argon2.argon2id});
+      let passHash = await argon2.hash(password, {type: argon2.argon2id});
       let user = await new User;
       user.local.email = email;
-      user.local.password = password;
+      user.local.password = passHash;
       user.local.emailVerificationHash = emailVerificationHash;
       user.save( (err) => {
         if (err) {
@@ -50,7 +51,6 @@ module.exports = (passport) => {
         return done(null, false, { message : 'Account not found. Check username or register an account'});
       }
       //Validate password and make sure it matches with the corresponding hash stored in the database
-      //If the passwords match, it returns a value of true.
       const validate = await user.isValidPassword(password);
       if( !validate ){
         return done(null, false, { message : 'Incorrect Password'});
