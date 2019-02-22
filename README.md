@@ -111,6 +111,14 @@ Currently, the app can create a new user with an email and password, redirect th
 - [ ] Verify accounts with Email verification
 - [ ] Add user page that can update email and username, password in mongodb
 
+### 2.6 Add user profiles when logged in, where users can change their settings
+
+**Status**: *Not started*
+
+- [ ] Make a user profile page, linked in restricted section
+- [ ] Allow users to change their passwords in that page with email confirmation
+
+
 ## 3 | Getting Started
 
 ### 3.1 Installing
