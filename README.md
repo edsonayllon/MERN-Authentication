@@ -94,7 +94,7 @@ Currently, the app can create a new user with an email and password, redirect th
     - [x] Send verification token in email to account
     - [x] Read verification token in the frontend opened from email
     - [x] Send verification token to the server
-    - [x] Validate verification token, if valid, activate account, allow login 
+    - [x] Validate verification token, if valid, activate account, allow login
     - [x] If account not verified in time, account will be deleted, preventing unauthorized users creating accounts for email addresses they do not own, also, cleaning the database
   - [x] If account is verified, allow login, and access to restricted content
 
@@ -115,7 +115,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 3.1 Installing
 
-Install dependencies in both `cd ./frontend` and `cd ./backend`
+1. Install dependencies in both `cd ./frontend` and `cd ./backend`
 
 ```
 npm install || yarn
@@ -123,7 +123,7 @@ npm install || yarn
 
 Authentication requires MongoDB to be installed on your system. MongoDB can be installed with [HomeBrew on Mac](https://treehouse.github.io/installation-guides/mac/mongo-mac.html)
 
-In `./backend` create a new file `variables.env`.
+2. In `./backend` create a new file `variables.env`.
 
 Add a secret key to `variables.env`. The secret key can be whatever you would like.
 This step is optional for this app if not running for production.
@@ -152,7 +152,6 @@ MAIL_PASS = "your email password"
 APP_NAME = "your app name"
 ```
 
-
 ### 3.2 Running
 
 You can run as a web app, mobile app, or desktop app.
@@ -161,15 +160,15 @@ You can run as a web app, mobile app, or desktop app.
 
 You must run the backend first. The backend requires MongoD to be running first.
 
-In `cd ./backend`:
+Inside `./backend`:
 
-Begin MongoD.
+1. Begin MongoD.
 
 ```
 mongod
 ```
 
-Then run the server
+2. Then run the server
 
 ```
 npm run dev || yarn dev || npm run start || yarn start
@@ -186,7 +185,7 @@ You can see your mongodb
 
 The front-end will run in localhost:3000 with current settings.
 
-In `cd ./frontend`:
+Inside `./frontend`:
 
 
 For Web:
