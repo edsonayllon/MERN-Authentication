@@ -18,6 +18,7 @@ router.post('/', function (req, res, next) {
         if( error ) return next(error)
         console.log(error);
         if (user.local.verfied === true) {
+          console.log("token code was run")
           const token = jwt.sign({
             _id : user._id,
             email : user.local.email
@@ -31,9 +32,9 @@ router.post('/', function (req, res, next) {
             message: 'Please verify your email address',
           });
         }
-
       });
     } catch (error) {
+      console.log(error)
       return res.status(401).send(info);
       return next(error);
     }

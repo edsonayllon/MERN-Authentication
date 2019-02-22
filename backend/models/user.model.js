@@ -16,13 +16,14 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('save', async function(next){
   const user = this;
-  const hash = await argon2.hash(this.local.password, { type: argon2.argon2id });
+  const hash = await argon2.hash(this.local.password);
   this.local.password = hash;
   next();
 });
 
 UserSchema.methods.isValidPassword = async function(password){
   const user = this;
+  console.log(password)
   const verify = await argon2.verify(user.local.password, password);
   return verify;
 }
