@@ -1,7 +1,8 @@
-// User Schema holds user password and email
 const mongoose = require('mongoose');
 const argon2 = require('argon2');
 
+// If user does not validate their email within 24 hrs,
+// their account will be deleted by default
 const UserSchema = new mongoose.Schema({
   local: {
     email: { type: String, required: false, unique: true },
@@ -10,10 +11,11 @@ const UserSchema = new mongoose.Schema({
     passwordResetExpiry: { type: Number },
     verified: { type: Boolean, default: false },
     emailVerificationHash: { type: String },
-    emailVerificationExpiry: { type: Date, default: Date.now, expires: 90 },
+    emailVerificationExpiry: { type: Date, default: Date.now, expires: 86400 },
   }
 });
 
+// Argon2 is used to hash passwords instead of bcrypt https://password-hashing.net/
 UserSchema.methods.isValidPassword = async function(password){
   const user = this;
   console.log(password)
