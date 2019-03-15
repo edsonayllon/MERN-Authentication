@@ -1,5 +1,21 @@
 # MERN Authentication Test
 
+<!-- TOC START min:1 max:3 link:true update:true -->
+- [MERN Authentication Test](#mern-authentication-test)
+  - [1 | Description](#1--description)
+  - [2 | Roadmap](#2--roadmap)
+    - [2.1 Minimal Viable Product (MVP)](#21-minimal-viable-product-mvp)
+    - [2.2 Add Passport](#22-add-passport)
+    - [2.3 Add password reset through email](#23-add-password-reset-through-email)
+    - [2.4 Add email verification](#24-add-email-verification)
+    - [2.5 Add user profiles when logged in, where users can change their settings](#25-add-user-profiles-when-logged-in-where-users-can-change-their-settings)
+    - [2.6 Add Alternative Logins (social)](#26-add-alternative-logins-social)
+    - [2.7 Other features](#27-other-features)
+  - [3 | Getting Started](#3--getting-started)
+    - [3.1 Installing](#31-installing)
+    - [3.2 Running](#32-running)
+
+<!-- TOC END -->
 
 ## 1 | Description
 
@@ -98,7 +114,15 @@ Currently, the app can create a new user with an email and password, redirect th
     - [x] If account not verified in time, account will be deleted, preventing unauthorized users creating accounts for email addresses they do not own, also, cleaning the database
   - [x] If account is verified, allow login, and access to restricted content
 
-### 2.5 Add Alternative Logins (social)
+### 2.5 Add user profiles when logged in, where users can change their settings
+
+**Status**: *Not started*
+
+- [ ] Make a user profile page, linked in restricted section
+- [ ] Allow users to change their passwords in that page with email confirmation
+
+
+### 2.6 Add Alternative Logins (social)
 
 **Status**: *Not started*
 
@@ -111,12 +135,6 @@ Currently, the app can create a new user with an email and password, redirect th
 - [ ] Verify accounts with Email verification
 - [ ] Add user page that can update email and username, password in mongodb
 
-### 2.6 Add user profiles when logged in, where users can change their settings
-
-**Status**: *Not started*
-
-- [ ] Make a user profile page, linked in restricted section
-- [ ] Allow users to change their passwords in that page with email confirmation
 
 ### 2.7 Other features
 
