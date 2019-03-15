@@ -1,7 +1,7 @@
-# MERN Authentication Test
+# MERN Authentication
 
 <!-- TOC START min:1 max:3 link:true update:true -->
-- [MERN Authentication Test](#mern-authentication-test)
+- [MERN Authentication](#mern-authentication)
   - [1 | Description](#1--description)
   - [2 | Roadmap](#2--roadmap)
     - [2.1 Minimal Viable Product (MVP)](#21-minimal-viable-product-mvp)
