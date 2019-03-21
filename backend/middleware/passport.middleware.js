@@ -67,9 +67,10 @@ module.exports = (passport) => {
     secretOrKey : secret,
     jwtFromRequest : ExtractJWT.fromAuthHeaderAsBearerToken()
   }, async (payload, done) => {
+    console.log(payload);
     try {
       //Pass the user details to the next middleware
-      return done(null, payload.email);
+      return done(null, payload._id);
     } catch (error) {
       console.log(error)
       done(error);

@@ -11,7 +11,7 @@ const checkTokenRouter = require('./routes/auth/checkToken.route');
 const registerRouter = require('./routes/auth/register.route');
 const authenticateRouter = require('./routes/auth/authenticate.route');
 const forgotPasswordRouter = require('./routes/auth/forgotPassword.route');
-const resetPasswordRouter = require('./routes/auth/resetPassword.route');
+const resetForgotPasswordRouter = require('./routes/auth/resetForgotPassword.route');
 const verifyEmailRouter = require('./routes/auth/verifyEmail.route');
 
 // api routes
@@ -73,7 +73,7 @@ app.use('/auth/checkToken',
   passport.authenticate('jwt', { session : false }),
   checkTokenRouter
 );
-app.use('/auth/password-reset', resetPasswordRouter);
+app.use('/auth/forgot-password-reset', resetForgotPasswordRouter);
 app.use('/auth/verify-email', verifyEmailRouter);
 
 // catch 404 and forward to error handler

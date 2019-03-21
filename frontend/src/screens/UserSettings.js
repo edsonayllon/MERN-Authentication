@@ -4,7 +4,7 @@ import {
   Text,
   AsyncStorage
 } from 'react-native';
-import { Button } from '../components';
+import { Button, Input } from '../components';
 
 export default class UserSettings extends Component {
   state = {
@@ -47,7 +47,8 @@ export default class UserSettings extends Component {
         }
       });
       if (res) {
-        this.setState({ message:  res.text()})
+        const api = await res.text()
+        this.setState({ message:  api})
       }
     } catch (err) {
       console.log('Promise is rejected with error: ' + err);
@@ -68,8 +69,60 @@ export default class UserSettings extends Component {
   render() {
     return (
       <View>
-        <Text>Secret</Text>
-        <Text>{this.state.message}</Text>
+        <Text style={{fontWeight:'bolder', fontSize: 20}}>User Settings</Text>
+
+        <Text style={{fontWeight:'bold', fontSize: 16, marginTop: 10}}>Username</Text>
+
+        <Text> Your current username is: </Text>
+
+        <Input
+          placeholder="New Username"
+          type='newusername'
+          name='newusername'
+          onChangeText={this.onInputChange}
+          value={this.state.password}
+          secureTextEntry
+        />
+
+        <Button
+          isLoading = {this.state.loading}
+          title='Change Username'
+          onPress={this.logout}
+          />
+
+        <Text style={{fontWeight:'bold', fontSize: 16, marginTop: 10}}>Change Password</Text>
+        <Input
+          placeholder="Current Password"
+          type='oldpassword'
+          name='oldpassword'
+          onChangeText={this.onInputChange}
+          value={this.state.oldpassword}
+          secureTextEntry
+        />
+        <Input
+          placeholder="New Password"
+          type='password'
+          name='password'
+          onChangeText={this.onInputChange}
+          value={this.state.password}
+          secureTextEntry
+        />
+        <Input
+          placeholder="Confirm Password"
+          type='passwordConfirm'
+          name='passwordConfirm'
+          onChangeText={this.onInputChange}
+          value={this.state.passwordConfirm}
+          secureTextEntry
+        />
+        <Button
+          isLoading = {this.state.loading}
+          title='Change Password'
+          onPress={this.logout}
+          />
+
+        <View style={{borderWidth: 0.5, borderColor:'black', margin: 10}}></View>
+
         <Button
           isLoading = {this.state.loading}
           title='Logout'

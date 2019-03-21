@@ -5,6 +5,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import { Button } from '../components';
+import { Link } from '../navigation';
 
 export default class Secret extends Component {
   state = {
@@ -47,7 +48,8 @@ export default class Secret extends Component {
         }
       });
       if (res) {
-        this.setState({ message:  res.text()})
+        const api = await res.text()
+        this.setState({ message:  api})
       }
     } catch (err) {
       console.log('Promise is rejected with error: ' + err);
@@ -68,13 +70,16 @@ export default class Secret extends Component {
   render() {
     return (
       <View>
-        <Text>Secret</Text>
-        <Text>{this.state.message}</Text>
+       <Link to='/u/settings'>
         <Button
           isLoading = {this.state.loading}
-          title='Logout'
-          onPress={this.logout}
+          title='User Settings'
           />
+        </Link>
+        <Text style={{fontWeight:'bolder', fontSize: 20}}>Authenticated Page</Text>
+
+        <Text>{this.state.message}</Text>
+
       </View>
     );
   }

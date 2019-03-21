@@ -30,7 +30,7 @@ export default class ForgotPassword extends Component {
       let token = await this.props.match.params.token; //reads the url
       let user = await this.props.match.params.user;
       const res = await fetch(
-        `http://localhost:4000/auth/password-reset?user=${user}&token=${token}`, {
+        `http://localhost:4000/auth/forgot-password-reset?user=${user}&token=${token}`, {
         method: 'GET',
       });
       const json = await res.json();

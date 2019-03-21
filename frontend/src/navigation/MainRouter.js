@@ -57,7 +57,7 @@ export default class MainRouter extends Component {
       },
       {
         path: '/u/settings',
-        component: UserSettings,
+        component: withAuth(UserSettings),
         title: 'User Settings'
       }
     ];
