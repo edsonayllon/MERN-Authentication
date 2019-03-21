@@ -66,6 +66,7 @@ export default class Login extends Component {
           this.setState({
             message: json.message,
             loginSuccess: false,
+            loading: false
           });
           break;
         default:

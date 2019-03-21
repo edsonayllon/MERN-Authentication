@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { Button } from '../components';
 
-export default class Secret extends Component {
+export default class UserSettings extends Component {
   state = {
     message: 'Loading..',
     loading: false

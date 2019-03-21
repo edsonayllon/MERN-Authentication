@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
-const secret = config.AUTH_ECRET_KEY;
+const secret = config.AUTH_SECRET_KEY;
 const tokenExpiration = "1m"; // set how long user will be logged in
 
 router.post('/', function (req, res, next) {
@@ -15,8 +15,10 @@ router.post('/', function (req, res, next) {
         return next(error);
       }
       req.login(user, { session : false }, async (error) => {
-        if( error ) return next(error)
-        console.log(error);
+        if( error ) {
+          console.log(error)
+          return next(error)
+        }
         if (user.local.verified === true) {
           const token = jwt.sign({
             _id : user._id

@@ -119,7 +119,7 @@ Currently, the app can create a new user with an email and password, redirect th
 
 ### 2.5 Add user profiles when logged in, where users can change their settings
 
-**Status**: *Not started*
+**Status**: *In Progress*
 
 - [ ] Make a user profile page, linked in restricted section
 - [ ] Allow users to change their passwords in that page with email confirmation

@@ -11,7 +11,8 @@ import {
   Register,
   ForgotPassword,
   ResetPassword,
-  ConfirmEmail
+  ConfirmEmail,
+  UserSettings
 } from '../screens';
 import withAuth from '../components/withAuth';
 
@@ -53,6 +54,11 @@ export default class MainRouter extends Component {
         path: '/verify/:user/:token',
         component: ConfirmEmail,
         title: 'Email Verification'
+      },
+      {
+        path: '/u/settings',
+        component: UserSettings,
+        title: 'User Settings'
       }
     ];
 
