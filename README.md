@@ -121,8 +121,11 @@ Currently, the app can create a new user with an email and password, redirect th
 
 **Status**: *In Progress*
 
-- [ ] Make a user profile page, linked in restricted section
-- [ ] Allow users to change their passwords in that page with email confirmation
+- [x] Bugfixes from previous versions
+- [x] Create User Settings page
+  - [x] Allow people to logout in that page
+  - [ ] Allow users to change their passwords in that page with email confirmation
+  - [ ] Allow users to create and change their username in that page
 
 
 ### 2.6 Add Alternative Logins (social)
