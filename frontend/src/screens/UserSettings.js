@@ -83,7 +83,7 @@ export default class UserSettings extends Component {
     const keys = [];
     key.split('.').map((item) =>{
       keys.push(item)
-    })
+    });
     this.setState(prevState => ({
       ...prevState,
       [keys[0]]: {
