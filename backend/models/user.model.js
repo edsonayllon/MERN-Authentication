@@ -4,6 +4,7 @@ const argon2 = require('argon2');
 // If user does not validate their email within 24 hrs,
 // their account will be deleted by default
 const UserSchema = new mongoose.Schema({
+  username: { type: String, required: false, unique: true },
   local: {
     email: { type: String, required: false, unique: true },
     password: { type: String, required: false },
