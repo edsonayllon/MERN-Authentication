@@ -19,6 +19,10 @@ const indexRouter = require('./routes/index.route');
 const homeRouter = require('./routes/home.route');
 const secretRouter = require('./routes/secret.route');
 
+// user settings
+const changePasswordRouter = require('./routes/changePassword.route');
+
+
 const config = require('./config');
 
 const app = express();
@@ -60,17 +64,25 @@ mongoose.connect(config.MONGO_URI, {
 require('./middleware/passport.middleware')(passport);
 
 // Routes with middleware
+
+// screens
 app.use('/', indexRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/secret',
   passport.authenticate('jwt', { session : false }),
   secretRouter
 );
+
+// user settings
+app.use('/api/change-password',
+  checkTokenRouter
+);
+
+// auth routs
 app.use('/auth/register', registerRouter);
 app.use('/auth/authenticate', authenticateRouter);
 app.use('/auth/forgot-password', forgotPasswordRouter);
 app.use('/auth/checkToken',
-  passport.authenticate('jwt', { session : false }),
   checkTokenRouter
 );
 app.use('/auth/forgot-password-reset', resetForgotPasswordRouter);
