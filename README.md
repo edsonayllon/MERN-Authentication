@@ -117,7 +117,7 @@ Currently, the app can create a new user with an email and password, redirect th
     - [x] If account not verified in time, account will be deleted, preventing unauthorized users creating accounts for email addresses they do not own, also, cleaning the database
   - [x] If account is verified, allow login, and access to restricted content
 
-### 2.5 Add user profiles when logged in, where users can change their settings
+### 2.5 Add user page when logged in, where users can change their settings
 
 **Status**: *In Progress*
 
@@ -126,8 +126,7 @@ Currently, the app can create a new user with an email and password, redirect th
   - [x] Allow people to logout in that page
   - [x] Form updates nested state
   - [x] Allow users to change their passwords in that page given they type the right old password
-  - [ ] Allow users to create and change their username in that page
-
+  - [x] Allow users to create and change their username in that page
 
 ### 2.6 Add Alternative Logins (social)
 
