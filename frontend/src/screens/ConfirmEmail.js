@@ -30,7 +30,6 @@ export default class ConfirmEmail extends Component {
         method: 'GET',
       });
       const json = await res.json();
-      console.log(json);
       this.setState({
         message: json.message,
         verified: json.verified
@@ -41,7 +40,6 @@ export default class ConfirmEmail extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <View>
         <Text style = {{fontWeight: 'bold'}}>Email Confirmation</Text>

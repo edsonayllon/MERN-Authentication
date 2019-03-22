@@ -82,7 +82,6 @@ export default class ForgotPassword extends Component {
         const status = await res.status;
         await json;
         this.setState({ loading: false });
-        console.log(json);
         switch (status) {
           case 200:
             this.setState({
@@ -109,7 +108,6 @@ export default class ForgotPassword extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <View>
         <Text style={this.state.expiredToken

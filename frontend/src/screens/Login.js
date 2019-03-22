@@ -82,9 +82,7 @@ export default class Login extends Component {
     }
   }
 
-
   render() {
-    console.log(this.state)
     return (
       <View>
         <Text>Login Below!</Text>

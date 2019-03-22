@@ -72,7 +72,6 @@ export default class ForgotPassword extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <View>
         <Text style = {{fontWeight: 'bold'}}>Trouble Logging In?</Text>

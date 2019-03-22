@@ -84,8 +84,8 @@ export default class UserSettings extends Component {
 
   onInputChangeObject = (key, value) => {
     const keys = [];
-    key.split('.').map((item) =>{
-      keys.push(item)
+    key.split('.').map((item) => {
+      return keys.push(item)
     });
     this.setState(prevState => ({
       ...prevState,
@@ -107,24 +107,25 @@ export default class UserSettings extends Component {
     }))
 
     if (!(this.state.passwordReset.newpassword === this.state.passwordReset.newpasswordConfirm)) {
-      this.setState({
+      this.setState(prevState => ({
         passwordReset: {
+          ...prevState['passwordReset'],
           message: 'Passwords must match',
           loading: false,
           serverSuccess: false
         }
-      });
+      }));
     } else if (this.state.passwordReset.newpassword === '' || this.state.passwordReset.newpasswordConfirm === '') {
-      this.setState({
+      this.setState(prevState => ({
         passwordReset: {
+          ...prevState['passwordReset'],
           message: 'Must a provide new password',
           loading: false,
           serverSuccess: false
         }
-      });
+      }));
     } else {
       try {
-        console.log(this.state.passwordReset)
         const jwt = await this.retrieveItem("JWT_TOKEN");
         const res = await fetch('http://localhost:4000/api/change-password', {
           method: 'POST',
@@ -141,7 +142,6 @@ export default class UserSettings extends Component {
         const status = await res.status;
         await json;
         this.setState({ loading: false });
-        console.log(json);
         switch (status) {
           case 200:
             this.setState(prevState => ({
@@ -181,15 +181,91 @@ export default class UserSettings extends Component {
     }
   }
 
+  changeUsername = async (e) => {
+    e.preventDefault();
+    this.setState(prevState => ({
+      usernameReset: {
+        ...prevState['usernameReset'],
+        loading: true,
+        message: ''
+      }
+    }))
+
+    if (this.state.username === this.state.usernameReset.newusername) {
+      this.setState(prevState =>({
+        usernameReset: {
+          ...prevState['usernameReset'],
+          message: 'New usernames must be new',
+          loading: false,
+          serverSuccess: false
+        }
+      }));
+    } else {
+      try {
+        const jwt = await this.retrieveItem("JWT_TOKEN");
+        const res = await fetch('http://localhost:4000/api/change-username', {
+          method: 'POST',
+          body: JSON.stringify({
+             newusername: this.state.usernameReset.newusername
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": 'Bearer ' + jwt
+          }
+        });
+        const json = await res.json();
+        const status = await res.status;
+        await json;
+        this.setState({ loading: false });
+        switch (status) {
+          case 200:
+            this.setState(prevState => ({
+              ...prevState,
+              username: this.state.usernameReset.newusername,
+              usernameReset: {
+                ...prevState['usernameReset'],
+                message: json.message,
+                serverSuccess: true,
+                loading: false,
+              }
+            }));
+            break;
+          case 403:
+            this.setState(prevState => ({
+              usernameReset: {
+                ...prevState['usernameReset'],
+                message: json.message,
+                serverSuccess: false,
+                loading: false,
+              }
+            }));
+            break;
+          default:
+            this.setState(prevState => ({
+              usernameReset: {
+                ...prevState['usernameReset'],
+                message: "Error connecting to server. Check your network",
+                serverSuccess: false,
+                loading: false,
+              }
+            }));
+            const error = new Error(res.error);
+            throw error;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
   render() {
-    console.log(this.state)
     return (
       <View>
         <Text style={{fontWeight:'bolder', fontSize: 20}}>User Settings</Text>
 
         <Text style={{fontWeight:'bold', fontSize: 16, marginTop: 10}}>Username</Text>
 
-        <Text> Current username: {this.state.username}</Text>
+        <Text>Current username: {this.state.username}</Text>
 
         <Input
           placeholder="New Username"
@@ -204,6 +280,7 @@ export default class UserSettings extends Component {
           title='Change Username'
           onPress={this.changeUsername}
           />
+        <Text>{this.state.usernameReset.message}</Text>
 
         <Text style={{fontWeight:'bold', fontSize: 16, marginTop: 10}}>Change Password</Text>
         <Input
@@ -223,7 +300,7 @@ export default class UserSettings extends Component {
           secureTextEntry
         />
         <Input
-          placeholder="Confirm Password"
+          placeholder="Confirm New Password"
           type='passwordReset.newpasswordConfirm'
           name='passwordReset.newpasswordConfirm'
           onChangeText={this.onInputChangeObject}

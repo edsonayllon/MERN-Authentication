@@ -36,11 +36,11 @@ router.post('/', function (req, res, next) {
       )
       if (success) {
         res.status(200).json({
-          message: 'Invalid credentials'
+          message: 'Username successfully updated'
         });
       } else {
         res.status(403).json({
-          message: 'Invalid credentials'
+          message: 'Username already exists'
         });
       }
     } catch (err) {
