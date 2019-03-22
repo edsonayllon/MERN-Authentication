@@ -5,6 +5,7 @@ const cors = require("cors");
 const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const config = require('./config');
 
 // auth routes
 const checkTokenRouter = require('./routes/auth/checkToken.route');
@@ -21,9 +22,7 @@ const secretRouter = require('./routes/secret.route');
 
 // user settings
 const changePasswordRouter = require('./routes/changePassword.route');
-
-
-const config = require('./config');
+const changeUsernameRouter = require('./routes/changeUsername.route');
 
 const app = express();
 
@@ -75,6 +74,7 @@ app.use('/api/secret',
 
 // user settings
 app.use('/api/change-password',  changePasswordRouter);
+app.use('/api/change-username',  changeUsernameRouter);
 
 // auth routs
 app.use('/auth/register', registerRouter);

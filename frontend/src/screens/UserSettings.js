@@ -20,10 +20,10 @@ export default class UserSettings extends Component {
       loading: false,
       message: '',
       serverSuccess: false,
-      oldusername: '',
       newusername: ''
     },
     loading: false,
+    username: '',
   }
 
   async removeItemValue(key) {
@@ -51,15 +51,17 @@ export default class UserSettings extends Component {
     try {
       const jwt = await this.retrieveItem("JWT_TOKEN");
       const res = await fetch(
-        "http://localhost:4000/api/secret", {
+        "http://localhost:4000/api/change-username", {
         method: "GET",
         headers: {
           'Authorization': 'Bearer ' + jwt
         }
       });
       if (res) {
-        const api = await res.text()
-        this.setState({ message:  api})
+        const json = await res.json()
+        this.setState({
+          username:  json.username
+        })
       }
     } catch (err) {
       console.log('Promise is rejected with error: ' + err);
@@ -187,7 +189,7 @@ export default class UserSettings extends Component {
 
         <Text style={{fontWeight:'bold', fontSize: 16, marginTop: 10}}>Username</Text>
 
-        <Text> Your current username is: </Text>
+        <Text> Current username: {this.state.username}</Text>
 
         <Input
           placeholder="New Username"
@@ -200,7 +202,7 @@ export default class UserSettings extends Component {
         <Button
           isLoading = {this.state.loading}
           title='Change Username'
-          onPress={this.logout}
+          onPress={this.changeUsername}
           />
 
         <Text style={{fontWeight:'bold', fontSize: 16, marginTop: 10}}>Change Password</Text>
