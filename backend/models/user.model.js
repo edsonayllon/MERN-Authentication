@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema({
 // Argon2 is used to hash passwords instead of bcrypt https://password-hashing.net/
 UserSchema.methods.isValidPassword = async function(password){
   const user = this;
-  console.log(password)
   const verify = await argon2.verify(user.local.password, password);
   return verify;
 }

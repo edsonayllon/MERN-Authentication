@@ -74,15 +74,14 @@ app.use('/api/secret',
 );
 
 // user settings
-app.use('/api/change-password',
-  checkTokenRouter
-);
+app.use('/api/change-password',  changePasswordRouter);
 
 // auth routs
 app.use('/auth/register', registerRouter);
 app.use('/auth/authenticate', authenticateRouter);
 app.use('/auth/forgot-password', forgotPasswordRouter);
 app.use('/auth/checkToken',
+  passport.authenticate('jwt', { session : false }),
   checkTokenRouter
 );
 app.use('/auth/forgot-password-reset', resetForgotPasswordRouter);

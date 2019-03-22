@@ -124,8 +124,8 @@ Currently, the app can create a new user with an email and password, redirect th
 - [x] Bugfixes from previous versions
 - [x] Create User Settings page
   - [x] Allow people to logout in that page
-  - [x] Form updates nested state 
-  - [ ] Allow users to change their passwords in that page with email confirmation
+  - [x] Form updates nested state
+  - [x] Allow users to change their passwords in that page given they type the right old password
   - [ ] Allow users to create and change their username in that page
 
 

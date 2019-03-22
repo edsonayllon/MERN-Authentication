@@ -22,7 +22,8 @@ export default class UserSettings extends Component {
       serverSuccess: false,
       oldusername: '',
       newusername: ''
-    }
+    },
+    loading: false,
   }
 
   async removeItemValue(key) {
@@ -93,12 +94,15 @@ export default class UserSettings extends Component {
     }))
   }
 
-  resetPassword = async (e) => {
+  changePassword = async (e) => {
     e.preventDefault();
-    this.setState({
-      loading: true,
-      message: ''
-    })
+    this.setState(prevState => ({
+      passwordReset: {
+        ...prevState['passwordReset'],
+        loading: true,
+        message: ''
+      }
+    }))
 
     if (!(this.state.passwordReset.newpassword === this.state.passwordReset.newpasswordConfirm)) {
       this.setState({
@@ -108,13 +112,27 @@ export default class UserSettings extends Component {
           serverSuccess: false
         }
       });
+    } else if (this.state.passwordReset.newpassword === '' || this.state.passwordReset.newpasswordConfirm === '') {
+      this.setState({
+        passwordReset: {
+          message: 'Must a provide new password',
+          loading: false,
+          serverSuccess: false
+        }
+      });
     } else {
       try {
-        const res = await fetch('http://localhost:4000/auth/password-reset', {
+        console.log(this.state.passwordReset)
+        const jwt = await this.retrieveItem("JWT_TOKEN");
+        const res = await fetch('http://localhost:4000/api/change-password', {
           method: 'POST',
-          body: JSON.stringify( this.state.passwordReset ),
+          body: JSON.stringify({
+             oldpassword: this.state.passwordReset.oldpassword,
+             newpassword: this.state.passwordReset.newpassword
+          }),
           headers: {
             'Content-Type': 'application/json',
+            "Authorization": 'Bearer ' + jwt
           }
         });
         const json = await res.json();
@@ -124,20 +142,34 @@ export default class UserSettings extends Component {
         console.log(json);
         switch (status) {
           case 200:
-            this.setState({
-              message: json.message,
-              serverSuccess: true,
-              loading: false,
-            });
+            this.setState(prevState => ({
+              passwordReset: {
+                ...prevState['passwordReset'],
+                message: json.message,
+                serverSuccess: true,
+                loading: false,
+              }
+            }));
             break;
           case 403:
-            this.setState({
-              message: json.message,
-              serverSuccess: false,
-              loading: false,
-            });
+            this.setState(prevState => ({
+              passwordReset: {
+                ...prevState['passwordReset'],
+                message: json.message,
+                serverSuccess: false,
+                loading: false,
+              }
+            }));
             break;
           default:
+            this.setState(prevState => ({
+              passwordReset: {
+                ...prevState['passwordReset'],
+                message: "Error connecting to server. Check your network",
+                serverSuccess: false,
+                loading: false,
+              }
+            }));
             const error = new Error(res.error);
             throw error;
         }
@@ -199,7 +231,7 @@ export default class UserSettings extends Component {
         <Button
           isLoading = {this.state.passwordReset.loading}
           title='Change Password'
-          onPress={this.resetPassword}
+          onPress={this.changePassword}
           />
         <Text>{this.state.passwordReset.message}</Text>
 
