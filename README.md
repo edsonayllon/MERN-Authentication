@@ -11,7 +11,7 @@
     - [2.2 Add Passport](#22-add-passport)
     - [2.3 Add password reset through email](#23-add-password-reset-through-email)
     - [2.4 Add email verification](#24-add-email-verification)
-    - [2.5 Add user profiles when logged in, where users can change their settings](#25-add-user-profiles-when-logged-in-where-users-can-change-their-settings)
+    - [2.5 Add user page when logged in, where users can change their settings](#25-add-user-page-when-logged-in-where-users-can-change-their-settings)
     - [2.6 Add Alternative Logins (social)](#26-add-alternative-logins-social)
     - [2.7 Other features](#27-other-features)
   - [3 | Getting Started](#3--getting-started)
@@ -22,10 +22,11 @@
 
 ## 1 | Description
 
-Modular authentication application made to isolate bugs with authentication,
-and have one working authentication system to compare other apps implementing this protocol.
+Modular authentication application made to isolate bugs with authentication, and have one working authentication system to compare other apps implementing this protocol. It now serves as a boiler plate for applications which utilize authentication. 
 
 Authentication system uses MongoDB, Node.js, Express.js, React, and React-Native (MERN).
+
+![preview](auth.gif)
 
 
 ## 2 | Roadmap
