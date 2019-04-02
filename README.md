@@ -16,8 +16,8 @@
 - [3 | Getting Started](#3--getting-started)
   - [3.1 Installing](#31-installing)
   - [3.2 Running](#32-running)
-    - [Running the Backend](#running-the-backend)
-    - [Running the Frontend](#running-the-frontend)
+    - [3.2.1 Running the Backend](#321-running-the-backend)
+    - [3.2.2 Running the Frontend](#322-running-the-frontend)
 
 <!-- TOC END -->
 
@@ -192,7 +192,7 @@ APP_NAME = "your app name or company name"
 
 You can run as a web app, mobile app, or desktop app.
 
-#### Running the Backend
+#### 3.2.1 Running the Backend
 
 You must run the backend first. The backend requires MongoD to be running first.
 
@@ -217,7 +217,7 @@ The back-end will be running in localhost:4000 with current settings.
 
 You can see your mongodb
 
-#### Running the Frontend
+#### 3.2.2 Running the Frontend
 
 The front-end will run in localhost:3000 with current settings.
 
