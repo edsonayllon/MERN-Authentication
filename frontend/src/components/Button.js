@@ -6,7 +6,22 @@ import {
   ActivityIndicator
 } from 'react-native'
 
-import styles from '../stylesheet';
+const styles = {
+  button: {
+    flexDirection: 'row',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'white',
+    padding: 12,
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'black',
+    fontSize: 16,
+    letterSpacing: 0.5,
+  },
+}
 
 export default ({ title, onPress, isLoading }) => (
   <TouchableOpacity onPress={onPress}>
