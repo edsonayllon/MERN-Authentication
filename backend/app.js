@@ -1,3 +1,4 @@
+require('dotenv').config()
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -6,6 +7,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const config = require('./config');
+const userMid = require('./middleware/user.middleware');
 
 // auth routes
 const checkTokenRouter = require('./routes/auth/checkToken.route');
@@ -67,23 +69,17 @@ require('./middleware/passport.middleware')(passport);
 // screens
 app.use('/', indexRouter);
 app.use('/api/home', homeRouter);
-app.use('/api/secret',
-  passport.authenticate('jwt', { session : false }),
-  secretRouter
-);
+app.use('/api/secret', userMid.jwt, secretRouter);
 
 // user settings
-app.use('/api/change-password',  changePasswordRouter);
-app.use('/api/change-username',  changeUsernameRouter);
+app.use('/api/change-password', userMid.jwt,  changePasswordRouter);
+app.use('/api/change-username', userMid.jwt,  changeUsernameRouter);
 
 // auth routs
 app.use('/auth/register', registerRouter);
 app.use('/auth/authenticate', authenticateRouter);
 app.use('/auth/forgot-password', forgotPasswordRouter);
-app.use('/auth/checkToken',
-  passport.authenticate('jwt', { session : false }),
-  checkTokenRouter
-);
+app.use('/auth/checkToken', userMid.jwt, checkTokenRouter);
 app.use('/auth/forgot-password-reset', resetForgotPasswordRouter);
 app.use('/auth/verify-email', verifyEmailRouter);
 

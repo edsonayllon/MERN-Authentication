@@ -19,7 +19,7 @@ export default class Login extends Component {
     loginSuccess: false
   }
 
-  _storeToken = async (token) => {
+  storeToken = async (token) => {
     try {
       const jsonItem = await AsyncStorage.setItem("JWT_TOKEN", JSON.stringify(token));
       return jsonItem
@@ -55,7 +55,7 @@ export default class Login extends Component {
       this.setState({ loading: false });
       switch(status) {
         case 200:
-          this._storeToken( json.token );
+          this.storeToken( json.token );
           await this.setState({
             message: json.message,
             loginSuccess: true,

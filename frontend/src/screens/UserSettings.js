@@ -26,7 +26,7 @@ export default class UserSettings extends Component {
     username: '',
   }
 
-  async removeItemValue(key) {
+  removeItemValue = async (key) => {
     try {
       await AsyncStorage.removeItem(key);
       return true;
@@ -36,7 +36,7 @@ export default class UserSettings extends Component {
     }
   }
 
-  async retrieveItem(key) {
+  retrieveItem = async (key) => {
     try {
       const retrievedItem =  await AsyncStorage.getItem(key);
       const item = JSON.parse(retrievedItem);
@@ -45,27 +45,6 @@ export default class UserSettings extends Component {
       console.log(error.message);
     }
     return
-  }
-
-  async componentDidMount() {
-    try {
-      const jwt = await this.retrieveItem("JWT_TOKEN");
-      const res = await fetch(
-        "http://localhost:4000/api/change-username", {
-        method: "GET",
-        headers: {
-          'Authorization': 'Bearer ' + jwt
-        }
-      });
-      if (res) {
-        const json = await res.json()
-        this.setState({
-          username:  json.username
-        })
-      }
-    } catch (err) {
-      console.log('Promise is rejected with error: ' + err);
-    }
   }
 
   logout = async () => {
@@ -215,8 +194,6 @@ export default class UserSettings extends Component {
         });
         const json = await res.json();
         const status = await res.status;
-        await json;
-        this.setState({ loading: false });
         switch (status) {
           case 200:
             this.setState(prevState => ({
@@ -255,6 +232,27 @@ export default class UserSettings extends Component {
       } catch (err) {
         console.error(err);
       }
+    }
+  }
+
+  async componentDidMount() {
+    try {
+      const jwt = await this.retrieveItem("JWT_TOKEN");
+      const res = await fetch(
+        "http://localhost:4000/api/change-username", {
+        method: "GET",
+        headers: {
+          'Authorization': 'Bearer ' + jwt
+        }
+      });
+      if (res) {
+        const json = await res.json()
+        this.setState({
+          username:  json.username
+        })
+      }
+    } catch (err) {
+      console.log('Promise is rejected with error: ' + err);
     }
   }
 

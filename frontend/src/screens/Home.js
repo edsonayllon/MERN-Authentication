@@ -9,12 +9,9 @@ export default class Home extends Component {
     message: 'Loading..'
   }
 
-  componentDidMount() {
-    fetch('http://localhost:4000/api/home')
-      .then(res => res.text())
-      .then(api => {
-        this.setState({ message:  api})
-      });
+  async componentDidMount() {
+    const res = await fetch('http://localhost:4000/api/home');
+    this.setState({ message: res.text() })
   }
 
   render() {
