@@ -6,6 +6,7 @@ import {
 import { Input, Button } from '../components';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
+import config from '../config';
 
 export default class ForgotPassword extends Component {
   state = {
@@ -30,7 +31,7 @@ export default class ForgotPassword extends Component {
       let token = await this.props.match.params.token; //reads the url
       let user = await this.props.match.params.user;
       const res = await fetch(
-        `http://localhost:4000/auth/forgot-password-reset?user=${user}&token=${token}`, {
+        `${config.API_ADDR}/auth/forgot-password-reset?user=${user}&token=${token}`, {
         method: 'GET',
       });
       const json = await res.json();
@@ -67,7 +68,7 @@ export default class ForgotPassword extends Component {
       });
     } else {
       try {
-        const res = await fetch('http://localhost:4000/auth/password-reset', {
+        const res = await fetch(`${config.API_ADDR}/auth/password-reset`, {
           method: 'POST',
           body: JSON.stringify({
             email: user,

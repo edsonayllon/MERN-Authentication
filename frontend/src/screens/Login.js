@@ -7,6 +7,7 @@ import {
 import { Input, Button } from '../components';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
+import config from '../config';
 
 export default class Login extends Component {
   state = {
@@ -41,7 +42,7 @@ export default class Login extends Component {
     e.preventDefault();
     this.setState({loading: true});
     try {
-      const res = await fetch('http://localhost:4000/auth/authenticate', {
+      const res = await fetch(`${config.API_ADDR}/auth/authenticate`, {
         method: 'POST',
         body: JSON.stringify(this.state.user),
         headers: {

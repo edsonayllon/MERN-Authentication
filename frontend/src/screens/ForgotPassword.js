@@ -6,6 +6,7 @@ import {
 import { Input, Button } from '../components';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
+import config from '../config';
 
 export default class ForgotPassword extends Component {
   state = {
@@ -35,7 +36,7 @@ export default class ForgotPassword extends Component {
       });
     } else {
       try {
-        const res = await fetch('http://localhost:4000/auth/forgot-password', {
+        const res = await fetch(`${config.API_ADDR}/auth/forgot-password`, {
           method: 'POST',
           body: JSON.stringify({ email: this.state.email }),
           headers: {

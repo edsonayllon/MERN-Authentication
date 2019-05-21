@@ -6,6 +6,7 @@ import {
 import { Input, Button } from '../components';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
+import config from '../config';
 
 export default class Register extends Component {
   state = {
@@ -42,7 +43,7 @@ export default class Register extends Component {
           loading: true,
           message: '',
         });
-        const res = await fetch('http://localhost:4000/auth/register', {
+        const res = await fetch(`${config.API_ADDR}/auth/register`, {
           method: 'POST',
           body: JSON.stringify(this.state.user),
           headers: {

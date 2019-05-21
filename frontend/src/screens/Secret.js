@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { Button } from '../components';
 import { Link } from '../navigation';
+import config from '../config';
 
 export default class Secret extends Component {
   state = {
@@ -40,8 +41,7 @@ export default class Secret extends Component {
   async componentDidMount() {
     try {
       const jwt = await this.retrieveItem("JWT_TOKEN");
-      const res = await fetch(
-        "http://localhost:4000/api/secret", {
+      const res = await fetch(`${config.API_ADDR}/api/secret`, {
         method: "GET",
         headers: {
           'Authorization': 'Bearer ' + jwt

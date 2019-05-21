@@ -3,6 +3,7 @@ import {
   View,
   Text
 } from 'react-native';
+import config from '../config';
 
 export default class Home extends Component {
   state = {
@@ -10,7 +11,7 @@ export default class Home extends Component {
   }
 
   async componentDidMount() {
-    const res = await fetch('http://localhost:4000/api/home');
+    const res = await fetch(`${config.API_ADDR}/api/home`);
     this.setState({ message: res.text() })
   }
 

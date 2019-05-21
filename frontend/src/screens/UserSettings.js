@@ -5,6 +5,7 @@ import {
   AsyncStorage
 } from 'react-native';
 import { Button, Input } from '../components';
+import config from '../config';
 
 export default class UserSettings extends Component {
   state = {
@@ -106,7 +107,7 @@ export default class UserSettings extends Component {
     } else {
       try {
         const jwt = await this.retrieveItem("JWT_TOKEN");
-        const res = await fetch('http://localhost:4000/api/change-password', {
+        const res = await fetch(`${config.API_ADDR}/api/change-password`, {
           method: 'POST',
           body: JSON.stringify({
              oldpassword: this.state.passwordReset.oldpassword,
@@ -114,7 +115,7 @@ export default class UserSettings extends Component {
           }),
           headers: {
             'Content-Type': 'application/json',
-            "Authorization": 'Bearer ' + jwt
+            'Authorization': 'Bearer ' + jwt
           }
         });
         const json = await res.json();

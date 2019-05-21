@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { Link } from '../navigation';
 import styles from '../stylesheet';
+import config from '../config';
 
 export default class ConfirmEmail extends Component {
   state = {
@@ -26,7 +27,7 @@ export default class ConfirmEmail extends Component {
       let token = await this.props.match.params.token; //reads the url
       let user = await this.props.match.params.user;
       const res = await fetch(
-        `http://localhost:4000/auth/verify-email?user=${user}&token=${token}`, {
+        `${config.API_ADDR}/auth/verify-email?user=${user}&token=${token}`, {
         method: 'GET',
       });
       const json = await res.json();
