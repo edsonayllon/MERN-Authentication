@@ -1,9 +1,28 @@
+---
+author: Edson Ayllon
+category: functionality
+tags: 
+- react
+- react native
+- node
+- express
+- mongodb
+- rest api
+- authentication
+- user accounts
+- restricted sections
+status: complete
+twitter: https://twitter.com/relativeread
+---
+
+## Modular 2-2019
+
 # MERN Authentication
 
-## Table of Contents
+Modular authentication application made to isolate bugs with authentication, and have one working authentication system to compare other apps implementing this protocol. It now serves as a boiler plate for applications which utilize authentication.
 
-<!-- TOC START min:2 max:4 link:true update:true -->
-- [Table of Contents](#table-of-contents)
+## Contents
+
 - [1 | Description](#1--description)
 - [2 | Roadmap](#2--roadmap)
   - [2.1 Minimal Viable Product (MVP)](#21-minimal-viable-product-mvp)
@@ -19,11 +38,9 @@
     - [3.2.1 Running the Backend](#321-running-the-backend)
     - [3.2.2 Running the Frontend](#322-running-the-frontend)
 
-<!-- TOC END -->
 
 ## 1 | Description
 
-Modular authentication application made to isolate bugs with authentication, and have one working authentication system to compare other apps implementing this protocol. It now serves as a boiler plate for applications which utilize authentication.
 
 Authentication system uses MongoDB, Node.js, Express.js, React, and React-Native (MERN).
 
