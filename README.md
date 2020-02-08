@@ -9,6 +9,7 @@ tags:
 - mongodb
 - rest api
 - authentication
+- email
 - user accounts
 - restricted sections
 status: complete
